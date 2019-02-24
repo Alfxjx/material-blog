@@ -35,6 +35,10 @@ module.exports = appInfo => {
       ignoreJSON: true, // 默认为 false，当设置为 true 时，将会放过所有 content-type 为 `application/json` 的请求
     },
   };
+  config.cors = {
+    origin: '*',
+    allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH',
+  };
   config.onerror = {
     all(err, ctx) {
       // json hander
@@ -50,10 +54,15 @@ module.exports = appInfo => {
           statusCode: errors.STATUS_CODE.DB_ERROR,
           msg: err.errmsg,
         });
+      } else if (err.name === 'AuthenticationError') {
+        ctx.body = ctx.body = JSON.stringify({
+          statusCode: errors.STATUS_CODE.AUTH_ERROR,
+          msg: err.message || err.name,
+        });
       } else {
-        ctx.body = JSON.stringify({
+        ctx.body = ctx.body = JSON.stringify({
           statusCode: err.code || errors.STATUS_CODE.UNEXPECT_ERROR,
-          msg: err.errmsg || err.msg || err.name,
+          msg: err.errmsg || err.msg || err.message || err.name,
         });
       }
     },
@@ -70,10 +79,15 @@ module.exports = appInfo => {
           statusCode: errors.STATUS_CODE.DB_ERROR,
           msg: err.errmsg,
         };
+      } else if (err.name === 'AuthenticationError') {
+        ctx.body = {
+          statusCode: errors.STATUS_CODE.AUTH_ERROR,
+          msg: err.message || err.name,
+        };
       } else {
         ctx.body = {
           statusCode: err.code || errors.STATUS_CODE.UNEXPECT_ERROR,
-          msg: err.errmsg || err.msg || err.name,
+          msg: err.errmsg || err.msg || err.message || err.name,
         };
       }
     },

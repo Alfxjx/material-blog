@@ -160,7 +160,15 @@ module.exports = app => {
    * @apiUse error
    */
   router.get('/blog-tags', controller.blog.getTags);
+  router.get('/form', controller.image.form);
+  // x-csrf-token 头
+  router.post('/upload-image', controller.image.upload);
 
+  // 鉴权成功后的回调页面
+  router.get('/authCallback', controller.home.index);
+
+  // 登录校验
+  router.post('/login', app.passport.authenticate('local', { successRedirect: '/authCallback' }));
   /**
    * @apiDefine blogProperty
    * @apiParam {String} [category] 博客分类.

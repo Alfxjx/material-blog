@@ -10,4 +10,8 @@ module.exports = {
     enable: true,
     package: 'egg-mongoose',
   },
+  passport: {
+    enable: true,
+    package: 'egg-passport',
+  },
 };
