@@ -25,6 +25,7 @@ todolist:
 done: 
 [
   19-2-23: 使用egg-init
+  19-2-24: 完成了mongo集成，写了部分blog接口
 ]
 doing:
 [
@@ -32,6 +33,6 @@ doing:
 ]
 todolist:
 [
-
+  passport github登录
 ]
 ```
