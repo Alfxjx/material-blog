@@ -1,17 +1,37 @@
 {
-  "name": "this is a test blog",
+  "tag": [],
+  "category": [],
+  "archive": [],
+  "articleList":[
+    {
+      "id": "123",
+      "title": "Hello",
+      "indexImg": "LinkOfPic",
+      "indexDesc": "文章列表区的简介",
+      "createdTime": 1469261964000,
+      "modifyTime":1469261998999,
+      "author": "Xu",
+      "tag":["Vue", "JS"],
+      "category": "tech",
+      "likes": 0,
+      "viewCount": 12
+    }
+  ],
   "articles": [
     {
-      "id": "000001",
-      "time": 1469261964000,
-      "category": "分类",
-      "tag": "标签",
-      "desc": "描述，写在摘要里面",
-      "image": "头图，图片上图床",
-      "author": "tom",
-      "title": "Hello world",
-      "modified": 1469261964000,
-      "content": "## **hello ~~world~~**!"
+      "id": "123",
+      "title": "Hello",
+      "indexImg": "LinkOfPic",
+      "indexDesc": "文章列表区的简介",
+      "createdTime": 1469261964000,
+      "modifyTime":1469261998999,
+      "author": "Xu",
+      "tag":["Vue", "JS"],
+      "category": "tech",
+      "likes": 0,
+      "viewCount": 12,
+      "content": "## Hello ~~world~~ !",
+      "more": "linkOfALink"
     }
   ]
 }
