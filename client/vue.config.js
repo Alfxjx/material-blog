@@ -10,6 +10,16 @@ function resolve(dir) {
 
 module.exports = {
   devServer: {
+    proxy: {
+      '/api-blog': {
+        target: 'http://www.alfxjx.club/',
+        changeOrigin: true,
+        ws: true,
+        pathRewrite: {
+          '^/api': ''
+        }
+      }
+    },
     before(app) {
       app.get('/api/index', function (req, res) {
         res.json({
@@ -29,5 +39,5 @@ module.exports = {
     config.resolve.alias
       .set('components', resolve('src/components'))
   },
-  publicPath: ''
+  publicPath: '/'
 }

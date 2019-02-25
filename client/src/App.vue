@@ -2,28 +2,27 @@
   <div id="app">
     <tabbar></tabbar>
     <articlecard></articlecard>
-    <articlecard></articlecard>
-    <articlecard></articlecard>
-    <articlecard></articlecard>
-    <articlecard></articlecard>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import tabbar from './components/tabbar'
   import articlecard from './components/articlecard'
+  import { getIndex } from './api'
 
   export default {
     name: "app",
+    data() {
+      return {
+        index: {}
+      }
+    },
     created() {
-      this._getApi()
+      this._getIndex()
     },
     methods: {
-      _getApi() {
-        this._getIndex()
-      },
       _getIndex() {
-
+        getIndex()
       }
     },
     components: {
