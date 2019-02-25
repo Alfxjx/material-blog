@@ -1,11 +1,11 @@
 import axios from 'axios'
 
 const urlMap = {
-  devlopment: '/',
-  production: 'http://www.alfxjx.club'
+  devlopment: '/api',
+  production: 'http://www.alfxjx.club/api-blog'
 }
 
-const baseUrl = urlMap[process.env.NODE_ENV === 'production']
+const baseUrl = urlMap[process.env.NODE_ENV === 'production' ? 'production' : 'devlopment']
 
 export function get(url) {
   return function (params = {}) {

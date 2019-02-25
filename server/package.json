@@ -10,8 +10,10 @@
     "egg": "^2.15.1",
     "egg-mongoose": "^3.1.1",
     "egg-passport": "^2.0.1",
+    "egg-passport-github": "^1.0.0",
     "egg-scripts": "^2.11.0",
     "lodash": "^4.17.11",
+    "passport-github": "^1.1.0",
     "passport-local": "^1.0.0",
     "validator": "^10.11.0"
   },

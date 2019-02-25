@@ -5,7 +5,6 @@ module.exports = app => {
   const Schema = mongoose.Schema;
 
   const BlogSchema = new Schema({
-    id: { type: Number },
     category: { type: String },
     tag: { type: [ String ], default: [] },
     desc: { type: String },

@@ -5,12 +5,13 @@ module.exports = app => {
   const Schema = mongoose.Schema;
 
   const UserSchema = new Schema({
-    id: { type: Number },
     username: { type: String },
     pwd: { typ: String },
     avatar: { type: String },
     desc: { type: String, default: '这个人很懒，什么都没有写' },
     openId: { type: String },
+    accessToken: { type: String },
+    refreshToken: { type: String },
     tpUserName: { type: String },
     createdAt: { type: Date },
     updatedAt: { type: Date },

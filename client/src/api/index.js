@@ -1,6 +1,6 @@
 import { get } from './helper'
 
-const getIndex = get('/api-blog/blog')
+const getIndex = get('/blog')
 
 export {
   getIndex

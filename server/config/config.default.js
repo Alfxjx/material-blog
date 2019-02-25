@@ -18,8 +18,8 @@ module.exports = appInfo => {
   config.keys = appInfo.name + '_0619xjx';
 
   // add your middleware config here
-  config.middleware = [];
-
+  config.middleware = ['logg'];
+  config.logg = {};
   // add your user config here
   const userConfig = {
     // myAppName: 'egg',
@@ -30,15 +30,22 @@ module.exports = appInfo => {
       },
     },
   };
+ /*  config.passportGithub = {
+    key: '627654f8bb49e03c2b9b',
+    secret: '18a9f0f042087638271385d4e58c23c8da4c4529',
+    // callbackURL: '/passport/github/callback',
+    // proxy: false,
+  }; */
   config.security = {
     csrf: {
       ignoreJSON: true, // 默认为 false，当设置为 true 时，将会放过所有 content-type 为 `application/json` 的请求
     },
+    domainWhiteList: ['http://localhost:8080'],
   };
-  config.cors = {
+/*   config.cors = {
     origin: '*',
     allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH',
-  };
+  }; */
   config.onerror = {
     all(err, ctx) {
       // json hander

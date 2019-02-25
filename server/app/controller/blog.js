@@ -44,8 +44,6 @@ class BlogController extends Controller {
   async getBlogs() {
     const { ctx } = this;
     const _res = ctx.helper.handleQuery(ctx.request.query);
-    console.log(ctx.user);
-    console.log(ctx.isAuthenticated());
     const row = await ctx.model.Blog.find({
       ..._res.where,
     }, 'category tag desc image author createdAt title').skip(_res.pagination.offset).limit(_res.pagination.size);

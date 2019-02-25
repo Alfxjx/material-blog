@@ -1,10 +1,15 @@
 'use strict';
 
+const validator = require('validator');
+const error = require('./errors/errors');
+const _ = require('lodash');
 /**
  * @param {Egg.Application} app - egg application
  */
 module.exports = app => {
   const { router, controller } = app;
+  console.log(app.config.cors);
+  console.log(app.config.coreMiddlewares);
   router.get('/', controller.home.index);
   /**
    * @api {post} /blog blog-写博客
@@ -16,8 +21,8 @@ module.exports = app => {
    * @apiSuccessExample Success-Response:
    *     HTTP/1.1 200 OK
    *     {
-   *       "statusCode": 1,
-   *       "msg": "添加博客成功"
+   *       'statusCode': 1,
+   *       'msg': '添加博客成功'
    *     }
    *
    * @apiUse error
@@ -34,21 +39,21 @@ module.exports = app => {
    * @apiSuccessExample Success-Response:
    *     HTTP/1.1 200 OK
    *     {
-   *       "statusCode": 1,
-   *       "msg": "获取博客列表成功"
-   *       "data": [
+   *       'statusCode': 1,
+   *       'msg': '获取博客列表成功'
+   *       'data': [
    *          {
-   *              "tag": [
-   *                 "java",
-   *                 "test"
+   *              'tag': [
+   *                 'java',
+   *                 'test'
    *               ],
-   *              "_id": "5c721a8325ec7509384d9deb",            // "博客id"
-   *              "category": "java",
-   *              "desc": "nothing",
-   *              "image": "http://www.weidongwei.com/static/media/webPic.557c7012.jpg",
-   *              "author": "xjx",
-   *              "title": "test",
-   *              "createdAt": "2019-02-24T04:16:03.781Z"
+   *              '_id': '5c721a8325ec7509384d9deb',            // '博客id'
+   *              'category': 'java',
+   *              'desc': 'nothing',
+   *              'image': 'http://www.weidongwei.com/static/media/webPic.557c7012.jpg',
+   *              'author': 'xjx',
+   *              'title': 'test',
+   *              'createdAt': '2019-02-24T04:16:03.781Z'
    *          },
    *          {...}
    *        ]
@@ -66,23 +71,23 @@ module.exports = app => {
    * @apiSuccessExample Success-Response:
    *     HTTP/1.1 200 OK
    *     {
-   *       "statusCode": 1,
-   *       "msg": "获取博客列表成功"
-   *       "data": [
+   *       'statusCode': 1,
+   *       'msg': '获取博客列表成功'
+   *       'data': [
    *          {
-   *              "tag": [
-   *                 "java",
-   *                 "test"
+   *              'tag': [
+   *                 'java',
+   *                 'test'
    *               ],
-   *              "_id": "5c721a8325ec7509384d9deb",
-   *              "category": "java",
-   *              "desc": "nothing",
-   *              "image": "http://www.weidongwei.com/static/media/webPic.557c7012.jpg",
-   *              "author": "xjx",
-   *              "title": "test",
-   *              "createdAt": "2019-02-24T04:16:03.781Z",
-   *              "updatedAt": "2019-02-24T04:16:03.781Z",
-   *              "content": "### this is a demo11111111111",            // "博客正文"
+   *              '_id': '5c721a8325ec7509384d9deb',
+   *              'category': 'java',
+   *              'desc': 'nothing',
+   *              'image': 'http://www.weidongwei.com/static/media/webPic.557c7012.jpg',
+   *              'author': 'xjx',
+   *              'title': 'test',
+   *              'createdAt': '2019-02-24T04:16:03.781Z',
+   *              'updatedAt': '2019-02-24T04:16:03.781Z',
+   *              'content': '### this is a demo11111111111',            // '博客正文'
    *          },
    *          {...}
    *        ]
@@ -101,8 +106,8 @@ module.exports = app => {
    * @apiSuccessExample Success-Response:
    *     HTTP/1.1 200 OK
    *     {
-   *       "statusCode": 1,
-   *       "msg": "编辑博客成功"
+   *       'statusCode': 1,
+   *       'msg': '编辑博客成功'
    *     }
    *
    * @apiUse error
@@ -116,16 +121,16 @@ module.exports = app => {
    * @apiSuccessExample Success-Response:
    *     HTTP/1.1 200 OK
    *     {
-   *       "statusCode": 1,
-   *       "msg": "获取分类文章数成功"
-   *       "data": [
+   *       'statusCode': 1,
+   *       'msg': '获取分类文章数成功'
+   *       'data': [
    *            {
-                    "_id": "java2",             // "分类类型"
-                    "count": 1                  // "对应文章数量"
+                    '_id': 'java2',             // '分类类型'
+                    'count': 1                  // '对应文章数量'
                 },
                 {
-                    "_id": "java",
-                    "count": 1
+                    '_id': 'java',
+                    'count': 1
                 },
                 {...}
    *        ]
@@ -142,16 +147,16 @@ module.exports = app => {
    * @apiSuccessExample Success-Response:
    *     HTTP/1.1 200 OK
    *     {
-   *       "statusCode": 1,
-   *       "msg": "获取分类文章数成功"
-   *       "data": [
+   *       'statusCode': 1,
+   *       'msg': '获取分类文章数成功'
+   *       'data': [
    *            {
-                    "_id": "test",              // "标签"
-                    "count": 1                  // "对应文章数量"
+                    '_id': 'test',              // '标签'
+                    'count': 1                  // '对应文章数量'
                 },
                 {
-                    "_id": "java",
-                    "count": 1
+                    '_id': 'java',
+                    'count': 1
                 },
                 {...}
    *        ]
@@ -164,11 +169,34 @@ module.exports = app => {
   // x-csrf-token 头
   router.post('/upload-image', controller.image.upload);
 
+  const handle = (strategy, cookieName) => (ctx) => {
+    const surl = ctx.cookies.get(cookieName);
+    app.logger.info(strategy);
+    if (_.isEmpty(surl) || !validator.isURL(surl)) {
+      throw error.BadParamsError('回调地址不是正确url');
+    } else {
+      app.logger.info('redirect to authCallback');
+      ctx.redirect(surl);
+    }
+  };
   // 鉴权成功后的回调页面
-  router.get('/authCallback', controller.home.index);
+  router.get('/authCallback', handle('username namd pwd strategy', 'sucLoginUrl'));
+  // 鉴权失败后的回调页面
+  router.get('/authCallbackFail', handle('username namd pwd strategy', 'failLoginUrl'));
+  // router.get('/auth/github/callback', handle('github strategy', 'sucLoginUrl'));
 
   // 登录校验
-  router.post('/login', app.passport.authenticate('local', { successRedirect: '/authCallback' }));
+  const _login = app.middleware.login();
+  router.post('/login/local', _login,  app.passport.authenticate('local', { 
+    successRedirect: '/authCallback',
+    failureRedirect: '/authCallbackFail',
+  }));
+  router.get('/login/github', _login,  app.passport.authenticate('github'));
+  router.get('/auth/github/callback', 
+    app.passport.authenticate('github', {
+      successRedirect: '/authCallback',
+      failureRedirect: '/authCallbackFail',
+    }));
   /**
    * @apiDefine blogProperty
    * @apiParam {String} [category] 博客分类.
@@ -195,8 +223,8 @@ module.exports = app => {
     * @apiErrorExample Error-Response:
     *     HTTP/1.1 200 OK
     *     {
-    *       "statusCode": "对应的错误码 见附录1"
-    *       "msg": "错误信息"
+    *       'statusCode': '对应的错误码 见附录1'
+    *       'msg': '错误信息'
     *     }
     */
   /**
