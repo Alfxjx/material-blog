@@ -13,8 +13,11 @@ module.exports = app => {
     title: { type: String, unique: true },
     content: { type: String },
     blogInfo: {
-      viewCount: Number,
-      likes: Number,
+      type: {
+        viewCount: Number,
+        likes: Number,
+      },
+      default: { viewCount: 0, likes: 0 },
     },
     createdAt: { type: Date },
     updatedAt: { type: Date },

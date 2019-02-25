@@ -3,6 +3,7 @@
 const validator = require('validator');
 const error = require('./errors/errors');
 const _ = require('lodash');
+const { URL } = require('url');
 /**
  * @param {Egg.Application} app - egg application
  */
@@ -53,6 +54,7 @@ module.exports = app => {
    *              'image': 'http://www.weidongwei.com/static/media/webPic.557c7012.jpg',
    *              'author': 'xjx',
    *              'title': 'test',
+   *              'blogInfo': { viewCount：'浏览量'，likes: '喜欢数' },
    *              'createdAt': '2019-02-24T04:16:03.781Z'
    *          },
    *          {...}
@@ -167,17 +169,44 @@ module.exports = app => {
   router.get('/blog-tags', controller.blog.getTags);
   router.get('/form', controller.image.form);
   // x-csrf-token 头
+  /**
+   * @api {post} /upload-image image-上传图片
+   * @apiName uploadimage
+   * @apiGroup Image
+   * @apiDescription 注意.
+   * 使用axios上传图片 使用new FormData()对象
+   * @apiSuccessExample Success-Response:
+   *     HTTP/1.1 200 OK
+   *     {
+   *       'statusCode': 1,
+   *       'msg': '获取分类文章数成功'
+   *       'data': 'http://www.alfxjx.club/image/tupian1.jpg' // 图片链接
+   *      }
+   * @apiUse error
+   */
   router.post('/upload-image', controller.image.upload);
 
-  const handle = (strategy, cookieName) => (ctx) => {
+  const handle = (strategy, cookieName) => ctx => {
     const surl = ctx.cookies.get(cookieName);
-    app.logger.info(strategy);
     if (_.isEmpty(surl) || !validator.isURL(surl)) {
       throw error.BadParamsError('回调地址不是正确url');
-    } else {
-      app.logger.info('redirect to authCallback');
-      ctx.redirect(surl);
     }
+    app.logger.info('redirect to authCallback');
+    app.logger.info(strategy);
+    const url = new URL(surl);
+    if (ctx.user.username) {
+      url.searchParams.set('username', ctx.user.username);
+    }
+    if (ctx.user.openId) {
+      url.searchParams.set('openId', ctx.user.openId);
+    }
+    if (ctx.user.avatar) {
+      url.searchParams.set('avatar', ctx.user.avatar);
+    }
+    if (ctx.user._id) {
+      url.searchParams.set('_id', ctx.user._id);
+    }
+    ctx.redirect(url.href);
   };
   // 鉴权成功后的回调页面
   router.get('/authCallback', handle('username namd pwd strategy', 'sucLoginUrl'));
@@ -185,14 +214,70 @@ module.exports = app => {
   router.get('/authCallbackFail', handle('username namd pwd strategy', 'failLoginUrl'));
   // router.get('/auth/github/callback', handle('github strategy', 'sucLoginUrl'));
 
-  // 登录校验
+
+  /**
+   * @api {post} /auth/local login-用户名密码登陆
+   * @apiName unpLogin
+   * @apiGroup Login
+   * @apiDescription 注意.
+   * 这里不使用xhr请求， 而是用form表单请求
+   * @apiParam {String} username 用户名.
+   * @apiParam {String} password 密码.
+   * @apiSuccessExample Success-Response:
+   *  默认：跳转到首页
+   *  注意：登陆的时候可以在query参数里放sucLoginUrl failLoginUrl
+   *  两个参数， 如果有，成功登陆后会跳转到sucLoginUrl链接。
+   *  失败会到failLoginUrl链接, 方便用户回到之前的位置。
+   *
+   * 登陆后跳转的页面， 页面的url上会有
+   * username  用户名
+   * _id    用户名id
+   * avatar 用户头像
+   * 的query参数， 自己取出来使用以及保存
+   */
   const _login = app.middleware.login();
-  router.post('/login/local', _login,  app.passport.authenticate('local', { 
-    successRedirect: '/authCallback',
-    failureRedirect: '/authCallbackFail',
+  router.post('/login/local', _login, app.passport.authenticate('local', {
+    successRedirect: 'http://www.alfxjx.club/api-blog/authCallback',
+    failureRedirect: 'http://www.alfxjx.club/api-blog/authCallbackFail',
   }));
-  router.get('/auth/github', _login,  app.passport.authenticate("github", {
-      session: false,
+  /**
+   * @api {post} /registry/local login-用户注册
+   * @apiName unpRegistry
+   * @apiGroup Login
+   * @apiDescription 注意.
+   * 使用xhr
+   * @apiParam {String} username 用户名.
+   * @apiParam {String} password 密码.
+   * @apiSuccessExample Success-Response:
+   *     HTTP/1.1 200 OK
+   *     {
+   *       'statusCode': 1,
+   *       'msg': '注册成功'
+   *       'data': {username: 'wdw', avatar: 'http://ww..232.jpg', _id: '231d121w9s891w9719'}
+   *      }
+   * @apiUse error
+   */
+  router.post('/registry/local', app.controller.user.registry);
+  /**
+   * @api {get} /auth/github login-github登陆
+   * @apiName githubLogin
+   * @apiGroup Login
+   * @apiDescription 注意.
+   * 直接让用户点击这个链接即可
+   * @apiSuccessExample Success-Response:
+   *  默认：跳转到首页
+   *  注意：登陆的时候可以在query参数里放sucLoginUrl failLoginUrl
+   *  两个参数， 如果有，成功登陆后会跳转到sucLoginUrl链接。
+   *  失败会到failLoginUrl链接, 方便用户回到之前的位置。
+   *
+   * 登陆后跳转的页面， 页面的url上会有
+   * username  用户名
+   * _id    用户名id
+   * avatar 用户头像
+   * 的query参数， 自己取出来使用以及保存
+   */
+  router.get('/auth/github', _login, app.passport.authenticate('github', {
+    session: false,
   }));
   router.get('/auth/github/callback',
     app.passport.authenticate('github', {

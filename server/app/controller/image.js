@@ -8,6 +8,9 @@ class HomeController extends Controller {
   async upload() {
     const { ctx } = this;
     // egg-multipart 已经帮我们处理文件二进制对象
+    if (!ctx.user || !ctx.isAuthenticated() || (ctx.user.username !== 'Alfxjx' && ctx.user.username !== 'ape-casear')) {
+      throw error.AuthError('无权限');
+    }
     const stream = await ctx.getFileStream();
     console.log(stream);
     const filename = stream.filename;

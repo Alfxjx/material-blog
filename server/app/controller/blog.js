@@ -11,6 +11,10 @@ class BlogController extends Controller {
    */
   async addBlog() {
     const { ctx } = this;
+    console.log(ctx.user);
+    if (!ctx.user || !ctx.isAuthenticated() || (ctx.user.username !== 'Alfxjx' && ctx.user.username !== 'ape-casear')) {
+      throw error.AuthError('无权限');
+    }
     const _blog = new ctx.model.Blog();
     const _blogDTO = {
       category: ctx.request.body.category,
@@ -46,7 +50,7 @@ class BlogController extends Controller {
     const _res = ctx.helper.handleQuery(ctx.request.query);
     const row = await ctx.model.Blog.find({
       ..._res.where,
-    }, 'category tag desc image author createdAt title').skip(_res.pagination.offset).limit(_res.pagination.size);
+    }, 'category tag desc image author createdAt title blogInfo').skip(_res.pagination.offset).limit(_res.pagination.size);
     ctx.body = {
       statusCode: error.STATUS_CODE.SUC,
       msg: '获取博客列表成功',
