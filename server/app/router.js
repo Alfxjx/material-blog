@@ -191,11 +191,13 @@ module.exports = app => {
     successRedirect: '/authCallback',
     failureRedirect: '/authCallbackFail',
   }));
-  router.get('/login/github', _login,  app.passport.authenticate('github'));
-  router.get('/auth/github/callback', 
+  router.get('/auth/github', _login,  app.passport.authenticate("github", {
+      session: false,
+  }));
+  router.get('/auth/github/callback',
     app.passport.authenticate('github', {
-      successRedirect: '/authCallback',
-      failureRedirect: '/authCallbackFail',
+      successRedirect: 'http://www.alfxjx.club/api-blog/authCallback',
+      failureRedirect: 'http://www.alfxjx.club/api-blog/authCallbackFail',
     }));
   /**
    * @apiDefine blogProperty
