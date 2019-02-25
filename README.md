@@ -7,10 +7,12 @@
 done: 
 [
   19-2-23: 新建项目
+
+  19-2-24:  mock数据（client/data.json）
 ]
 doing:
 [
-
+  界面设计
 ]
 todolist:
 [

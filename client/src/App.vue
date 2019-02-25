@@ -1,15 +1,33 @@
 <template>
   <div id="app">
     <tabbar></tabbar>
+    <articlecard></articlecard>
+    <articlecard></articlecard>
+    <articlecard></articlecard>
+    <articlecard></articlecard>
+    <articlecard></articlecard>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import tabbar from './components/tabbar'
+  import articlecard from './components/articlecard'
+
   export default {
     name: "app",
-    components:{
-      tabbar
+    created() {
+      this._getApi()
+    },
+    methods: {
+      _getApi() {
+        this._getIndex()
+      },
+      _getIndex() {
+
+      }
+    },
+    components: {
+      tabbar, articlecard
     }
   }
 </script>
