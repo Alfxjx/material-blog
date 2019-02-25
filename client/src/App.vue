@@ -1,28 +1,41 @@
 <template>
   <div id="app">
     <tabbar></tabbar>
-    <articlecard></articlecard>
+    <articlecard
+      v-for="(item, index) in list"
+      :key="index"
+      :title="item.title"
+      :category="item.category"
+      :desc="item.desc"
+      :img="item.image"
+      :author="item.author"
+      :viewcount="item.viewcount"
+    ></articlecard>
+    <p>总计{{ list.length }}篇文章</p>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import tabbar from './components/tabbar'
   import articlecard from './components/articlecard'
-  import { getIndex } from './api'
+  import { getList } from './api/index'
 
   export default {
     name: "app",
     data() {
       return {
-        index: {}
+        list: {}
       }
     },
     created() {
-      this._getIndex()
+      this._getList()
     },
     methods: {
-      _getIndex() {
-        getIndex()
+      _getList() {
+        getList().then((res) => {
+          this.list = res
+        })
+        console.log(this.list)
       }
     },
     components: {

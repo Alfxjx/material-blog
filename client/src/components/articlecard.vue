@@ -4,17 +4,17 @@
       <md-ripple>
         <md-card-header>
           <md-card-media>
-            <img src="../assets/logo.png" alt="Avatar">
+            <img :src="img" alt="">
           </md-card-media>
           <md-card-header-text>
-            <div class="md-title">Green custom theme</div>
-            <div class="md-subhead">Subtitle here</div>
+            <div class="md-title">{{ title }}</div>
+            <div class="md-subhead">分类：{{ category }}</div>
           </md-card-header-text>
         </md-card-header>
-        <md-card-content>这是简介</md-card-content>
+        <md-card-content>{{ desc }}</md-card-content>
         <md-card-actions>
           <md-button>Like</md-button>
-          <p class="viewcount">阅读数{{viewcount}}</p>
+          <p class="count">阅读数{{ count }}</p>
         </md-card-actions>
       </md-ripple>
     </md-card>
@@ -24,9 +24,13 @@
 <script type="text/ecmascript-6">
   export default {
     name: "articlecard",
+    props: ['img', 'title', 'desc', 'category', 'viewcount'],
     data() {
-      return {
-        viewcount: 10
+      return {}
+    },
+    computed: {
+      count() {
+        return this.viewcount > 0 ? this.viewcount : 0
       }
     }
   }
@@ -37,7 +41,7 @@
   .card-wrapper
     margin 20px 20px 50px 20px
 
-  .viewcount
+  .count
     font-family Roboto
     margin-left 10px
 </style>
