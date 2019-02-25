@@ -1,4 +1,4 @@
-"# material-blog" 
+# Blog
 
 ### 工作进程
 
@@ -9,14 +9,17 @@ done:
   19-2-23: 新建项目
 
   19-2-24:  mock数据（client/data.json）
+  
+  19-2-25: 完成api获取
 ]
 doing:
 [
-  界面设计
+  列表页卡片样式
 ]
 todolist:
 [
-
+  文章详情的路由
+  
 ]
 ```
 
