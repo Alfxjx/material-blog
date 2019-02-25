@@ -1,0 +1,11 @@
+{
+  "name": "xjx_server_api",
+  "version": "0.1.0",
+  "description": "xjx_server_api",
+  "title": "API",
+  "url" : "http://www.alfxjx.club/api-blog",
+  "footer": {
+    "title": "附录",
+    "filename": "./api/footer.md"
+  }
+}
