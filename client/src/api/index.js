@@ -1,7 +1,13 @@
 import { get } from './helper'
 
-const getIndex = get('/blog')
+const getList = get('/blog')
+const getCategory = get('/blog-category')
+const getTag = get('/blog-tags')
+// const getContent = get('/blog/:id')
 
 export {
-  getIndex
+  getList,
+  getCategory,
+  getTag
+
 }

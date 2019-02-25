@@ -1,37 +1,32 @@
 {
-  "tag": [],
-  "category": [],
-  "archive": [],
-  "articleList":[
+  "statusCode": 1,
+  "msg": "获取博客列表成功",
+  "data": [
     {
-      "id": "123",
-      "title": "Hello",
-      "indexImg": "LinkOfPic",
-      "indexDesc": "文章列表区的简介",
-      "createdTime": 1469261964000,
-      "modifyTime":1469261998999,
-      "author": "Xu",
-      "tag":["Vue", "JS"],
-      "category": "tech",
-      "likes": 0,
-      "viewCount": 12
-    }
-  ],
-  "articles": [
+      "tag": [
+        "test",
+        "java"
+      ],
+      "_id": "5c73b83c75c09e77e5d6dd94",
+      "category": "test",
+      "desc": "desc",
+      "image": "http://www.weidongwei.com:88/img/2019-01-13_timg.jpg",
+      "author": "wdw",
+      "title": "test",
+      "createdAt": "2019-02-25T09:41:16.829Z"
+    },
     {
-      "id": "123",
-      "title": "Hello",
-      "indexImg": "LinkOfPic",
-      "indexDesc": "文章列表区的简介",
-      "createdTime": 1469261964000,
-      "modifyTime":1469261998999,
-      "author": "Xu",
-      "tag":["Vue", "JS"],
-      "category": "tech",
-      "likes": 0,
-      "viewCount": 12,
-      "content": "## Hello ~~world~~ !",
-      "more": "linkOfALink"
+      "tag": [
+        "test",
+        "hello"
+      ],
+      "_id": "5c73d1e41e34e711894909d0",
+      "category": "test",
+      "desc": "hello this is a test of post",
+      "image": "https://github.com/Alfxjx/material-blog/blob/master/client/src/assets/logo.png",
+      "author": "xjx",
+      "title": "Hello world",
+      "createdAt": "2019-02-25T11:30:44.104Z"
     }
   ]
 }
