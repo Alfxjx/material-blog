@@ -21,11 +21,13 @@ module.exports = app => {
   }));
 
   app.passport.use(new GitHubStrategy({
+    passReqToCallback: true,
     clientID: '627654f8bb49e03c2b9b',
     clientSecret: '18a9f0f042087638271385d4e58c23c8da4c4529',
-    callbackURL: "http://127.0.0.1:7001/auth/github/callback"
+    // callbackURL: "http://localhost:7001/auth/github/callback"
+    callbackURL: "http://www.alfxjx.club/api-blog/auth/github/callback"
   },
-  async (accessToken, refreshToken, profile, done) => {
+  async (req, accessToken, refreshToken, profile, done) => {
     app.logger.info('doing GithubStrategy')
     app.logger.info(accessToken, refreshToken)
     app.logger.info(profile)
@@ -33,6 +35,14 @@ module.exports = app => {
     if (_.isNil(user)) {
       user = new app.model.User();
       user.openId = profile.id;
+      user.avatar = profile.photos[0].value;
+      user.tpUserName = profile.username;
+      user.accessToken = accessToken;
+      await user.save();
+    } else {
+      user.avatar = profile.photos[0].value;
+      user.tpUserName = profile.username;
+      user.accessToken = accessToken;
       await user.save();
     }
     app.passport.doVerify(req, user, done);

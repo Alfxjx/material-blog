@@ -40,7 +40,7 @@ module.exports = appInfo => {
     csrf: {
       ignoreJSON: true, // 默认为 false，当设置为 true 时，将会放过所有 content-type 为 `application/json` 的请求
     },
-    domainWhiteList: ['http://localhost:8080'],
+    domainWhiteList: ['.github.com', '.alfxjx.club'],
   };
 /*   config.cors = {
     origin: '*',
@@ -92,6 +92,7 @@ module.exports = appInfo => {
           msg: err.message || err.name,
         };
       } else {
+        ctx.logger.info(err)
         ctx.body = {
           statusCode: err.code || errors.STATUS_CODE.UNEXPECT_ERROR,
           msg: err.errmsg || err.msg || err.message || err.name,
