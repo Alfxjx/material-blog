@@ -28,7 +28,7 @@
       }
     },
     created() {
-      this.$store.dispatch('getBlogList')  
+      this.$store.dispatch('getBlogList')
     },
     methods: {
       /* _getList() {
