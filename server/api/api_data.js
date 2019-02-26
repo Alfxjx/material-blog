@@ -140,7 +140,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n  'statusCode': 1,\n  'msg': '获取博客列表成功'\n  'data': [\n     {\n         'tag': [\n            'java',\n            'test'\n          ],\n         '_id': '5c721a8325ec7509384d9deb',            // '博客id'\n         'category': 'java',\n         'desc': 'nothing',\n         'image': 'http://www.weidongwei.com/static/media/webPic.557c7012.jpg',\n         'author': 'xjx',\n         'title': 'test',\n         'createdAt': '2019-02-24T04:16:03.781Z'\n     },\n     {...}\n   ]\n}",
+          "content": "HTTP/1.1 200 OK\n{\n  'statusCode': 1,\n  'msg': '获取博客列表成功'\n  'data': [\n     {\n         'tag': [\n            'java',\n            'test'\n          ],\n         '_id': '5c721a8325ec7509384d9deb',            // '博客id'\n         'category': 'java',\n         'desc': 'nothing',\n         'image': 'http://www.weidongwei.com/static/media/webPic.557c7012.jpg',\n         'author': 'xjx',\n         'title': 'test',\n         'blogInfo': { viewCount：'浏览量'，likes: '喜欢数' },\n         'createdAt': '2019-02-24T04:16:03.781Z'\n     },\n     {...}\n   ]\n}",
           "type": "json"
         }
       ]
@@ -243,7 +243,7 @@ define({ "api": [
   },
   {
     "type": "put",
-    "url": "/blog",
+    "url": "/blog/:id",
     "title": "blog-编辑博客",
     "name": "putBlog",
     "group": "Blog",
@@ -375,11 +375,11 @@ define({ "api": [
   },
   {
     "type": "post",
-    "url": "/auth/github",
+    "url": "/auth/local",
     "title": "login-用户名密码登陆",
     "name": "unpLogin",
     "group": "Login",
-    "description": "<p>注意. 这里不使用xhr请求， 而是用form表单请求</p>",
+    "description": "<p>注意. 改用xhr请求</p>",
     "parameter": {
       "fields": {
         "Parameter": [
@@ -404,13 +404,71 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Response:",
-          "content": " 默认：跳转到首页\n 注意：登陆的时候可以在query参数里放sucLoginUrl failLoginUrl\n 两个参数， 如果有，成功登陆后会跳转到sucLoginUrl链接。\n 失败会到failLoginUrl链接, 方便用户回到之前的位置。\n\n登陆后跳转的页面， 页面的url上会有\nusername  用户名\n_id    用户名id\navatar 用户头像\n的query参数， 自己取出来使用以及保存",
+          "content": "HTTP/1.1 200 OK\n{\n  'statusCode': 1,\n  'msg': '登录成功'\n  'data': {username: 'wdw', avatar: 'http://ww..232.jpg', _id: '231d121w9s891w9719'}\n }",
           "type": "json"
         }
       ]
     },
     "version": "0.0.0",
     "filename": "app/router.js",
-    "groupTitle": "Login"
+    "groupTitle": "Login",
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n  'statusCode': '对应的错误码 见附录1'\n  'msg': '错误信息'\n}",
+          "type": "json"
+        }
+      ]
+    }
+  },
+  {
+    "type": "post",
+    "url": "/registry/local",
+    "title": "login-用户注册",
+    "name": "unpRegistry",
+    "group": "Login",
+    "description": "<p>注意. 使用xhr</p>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "username",
+            "description": "<p>用户名.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "password",
+            "description": "<p>密码.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n  'statusCode': 1,\n  'msg': '注册成功'\n  'data': {username: 'wdw', avatar: 'http://ww..232.jpg', _id: '231d121w9s891w9719'}\n }",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "app/router.js",
+    "groupTitle": "Login",
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n  'statusCode': '对应的错误码 见附录1'\n  'msg': '错误信息'\n}",
+          "type": "json"
+        }
+      ]
+    }
   }
 ] });

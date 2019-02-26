@@ -83,11 +83,11 @@ class BlogController extends Controller {
       { property: 'id', validateMethodes: [ _.isString ] },
     ], ctx.params);
     ctx.helper.validate([
-      { property: 'category', validateMethodes: [ _.isString ] },
-      { property: 'tag', validateMethodes: [ _.isArray ] },
-      { property: 'desc', validateMethodes: [ v => !_.isEmpty(v) ] },
-      { property: 'title', validateMethodes: [ v => !_.isEmpty(v) ] },
-      { property: 'content', validateMethodes: [ v => !_.isEmpty(v) ] },
+      { property: 'category', validateMethodes: [ _.isString ], optional: true },
+      { property: 'tag', validateMethodes: [ _.isArray ], optional: true },
+      { property: 'desc', validateMethodes: [ v => !_.isEmpty(v) ], optional: true },
+      { property: 'title', validateMethodes: [ v => !_.isEmpty(v) ], optional: true },
+      { property: 'content', validateMethodes: [ v => !_.isEmpty(v) ], optional: true },
     ], ctx.request.body);
 
     await ctx.model.Blog.update({

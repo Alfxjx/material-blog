@@ -9,8 +9,7 @@ const { URL } = require('url');
  */
 module.exports = app => {
   const { router, controller } = app;
-  console.log(app.config.cors);
-  console.log(app.config.coreMiddlewares);
+  console.log(app.config.env);
   router.get('/', controller.home.index);
   /**
    * @api {post} /blog blog-写博客
@@ -99,7 +98,7 @@ module.exports = app => {
    */
   router.get('/blog/:id', controller.blog.getBlog);
   /**
-   * @api {put} /blog blog-编辑博客
+   * @api {put} /blog/:id blog-编辑博客
    * @apiName putBlog
    * @apiGroup Blog
    *
@@ -186,32 +185,54 @@ module.exports = app => {
    */
   router.post('/upload-image', controller.image.upload);
 
-  const handle = (strategy, cookieName) => ctx => {
-    const surl = ctx.cookies.get(cookieName);
-    if (_.isEmpty(surl) || !validator.isURL(surl)) {
-      throw error.BadParamsError('回调地址不是正确url');
-    }
+  const handle = (strategy, cookieName, isSuccess) => ctx => {
     app.logger.info('redirect to authCallback');
     app.logger.info(strategy);
-    const url = new URL(surl);
-    if (ctx.user.username) {
-      url.searchParams.set('username', ctx.user.username);
+    if (cookieName) {
+      const surl = ctx.cookies.get(cookieName);
+      if (_.isEmpty(surl) || !validator.isURL(surl)) {
+        throw error.BadParamsError('回调地址不是正确url');
+      }
+      const url = new URL(surl);
+      if (ctx.user && ctx.user.username) {
+        url.searchParams.set('username', ctx.user.username);
+      }
+      if (ctx.user && ctx.user.openId) {
+        url.searchParams.set('openId', ctx.user.openId);
+      }
+      if (ctx.user && ctx.user.avatar) {
+        url.searchParams.set('avatar', ctx.user.avatar);
+      }
+      if (ctx.user && ctx.user._id) {
+        url.searchParams.set('_id', ctx.user._id);
+      }
+      ctx.redirect(url.href);
+    } else {
+      if (isSuccess) {
+        ctx.body = {
+          statusCode: error.STATUS_CODE.SUC,
+          msg: 'login ok',
+          data: {
+            username:  ctx.user && ctx.user.username,
+            avatar:  ctx.user && ctx.user.avatar,
+            _id:  ctx.user && ctx.user._id,
+          },
+        }
+      } else {
+        ctx.body = {
+          statusCode: error.STATUS_CODE.AUTH_ERROR,
+          msg: 'login fail',
+        }
+      }
     }
-    if (ctx.user.openId) {
-      url.searchParams.set('openId', ctx.user.openId);
-    }
-    if (ctx.user.avatar) {
-      url.searchParams.set('avatar', ctx.user.avatar);
-    }
-    if (ctx.user._id) {
-      url.searchParams.set('_id', ctx.user._id);
-    }
-    ctx.redirect(url.href);
+    // ctx.redirect(url.href);
   };
   // 鉴权成功后的回调页面
-  router.get('/authCallback', handle('username namd pwd strategy', 'sucLoginUrl'));
+  router.get('/authCallback', handle('username namd pwd strategy', '', true));
+  router.get('/authCallback-git', handle('git strategy', 'sucLoginUrl', true));
   // 鉴权失败后的回调页面
-  router.get('/authCallbackFail', handle('username namd pwd strategy', 'failLoginUrl'));
+  router.get('/authCallbackFail', handle('username namd pwd strategy', '', false));
+  router.get('/authCallbackFail-git', handle('git strategy', 'failLoginUrl', false));
   // router.get('/auth/github/callback', handle('github strategy', 'sucLoginUrl'));
 
 
@@ -220,25 +241,22 @@ module.exports = app => {
    * @apiName unpLogin
    * @apiGroup Login
    * @apiDescription 注意.
-   * 这里不使用xhr请求， 而是用form表单请求
+   * 改用xhr请求
    * @apiParam {String} username 用户名.
    * @apiParam {String} password 密码.
    * @apiSuccessExample Success-Response:
-   *  默认：跳转到首页
-   *  注意：登陆的时候可以在query参数里放sucLoginUrl failLoginUrl
-   *  两个参数， 如果有，成功登陆后会跳转到sucLoginUrl链接。
-   *  失败会到failLoginUrl链接, 方便用户回到之前的位置。
-   *
-   * 登陆后跳转的页面， 页面的url上会有
-   * username  用户名
-   * _id    用户名id
-   * avatar 用户头像
-   * 的query参数， 自己取出来使用以及保存
+   *     HTTP/1.1 200 OK
+   *     {
+   *       'statusCode': 1,
+   *       'msg': '登录成功'
+   *       'data': {username: 'wdw', avatar: 'http://ww..232.jpg', _id: '231d121w9s891w9719'}
+   *      }
+   * @apiUse error
    */
   const _login = app.middleware.login();
   router.post('/login/local', _login, app.passport.authenticate('local', {
-    successRedirect: 'http://www.alfxjx.club/api-blog/authCallback',
-    failureRedirect: 'http://www.alfxjx.club/api-blog/authCallbackFail',
+    successRedirect: app.config.env === 'prod' ? 'http://www.alfxjx.club/api-blog/authCallback' : '/authCallback',
+    failureRedirect: app.config.env === 'prod' ? 'http://www.alfxjx.club/api-blog/authCallbackFail' : '/authCallbackFail',
   }));
   /**
    * @api {post} /registry/local login-用户注册
@@ -281,8 +299,8 @@ module.exports = app => {
   }));
   router.get('/auth/github/callback',
     app.passport.authenticate('github', {
-      successRedirect: 'http://www.alfxjx.club/api-blog/authCallback',
-      failureRedirect: 'http://www.alfxjx.club/api-blog/authCallbackFail',
+      successRedirect: app.config.env === 'prod' ? 'http://www.alfxjx.club/api-blog/authCallback-git' : '/authCallback-git',
+      failureRedirect: app.config.env === 'prod' ? 'http://www.alfxjx.club/api-blog/authCallbackFail-git' : '/authCallbackFail-git',
     }));
   /**
    * @apiDefine blogProperty

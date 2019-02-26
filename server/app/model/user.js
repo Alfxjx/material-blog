@@ -23,7 +23,14 @@ module.exports = app => {
     if (!this.createdAt) {
       this.createdAt = now;
     }
-    this.pwd = crypto.createHmac('SHA1', 'xjx').update(this.pwd).digest('hex');
+    if (this.pwd && this.pwd.length < 20) {
+      this.pwd = crypto.createHmac('SHA1', 'xjx').update(this.pwd).digest('hex');
+    }
+    next();
+  });
+  UserSchema.pre('update', function(next) {
+    const now = new Date();
+    this.updatedAt = now;
     next();
   });
   return mongoose.model('User', UserSchema);

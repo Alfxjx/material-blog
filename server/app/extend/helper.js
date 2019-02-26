@@ -2,6 +2,7 @@
 
 // const validator = require('validator');
 const _ = require('lodash');
+const crypto = require('crypto');
 const error = require('../errors/errors');
 /**
  * 校验前端输入
@@ -15,12 +16,16 @@ exports.validate = function(validateList, baseDTO) {
     throw error.BadParamsError('validate error: 输入错误');
   }
   validateList.forEach(item => {
-    item.validateMethodes.forEach(method => {
-      if (!method(baseDTO[item.property])) {
-        // throw new Error('validate error: 校验失败！property is ' + item.property);
-        throw error.BadParamsError('validate error: 校验失败！property is ' + item.property);
-      }
-    });
+    if (item.optional && _.isNil(baseDTO[item.property])) {
+      // let it go
+    } else {
+      item.validateMethodes.forEach(method => {
+        if (!method(baseDTO[item.property])) {
+          // throw new Error('validate error: 校验失败！property is ' + item.property);
+          throw error.BadParamsError('validate error: 校验失败！property is ' + item.property);
+        }
+      });
+    }
   });
 };
 
@@ -70,3 +75,11 @@ exports.handleQuery = function(queryDTO) {
   return sqlArgs;
 };
 
+/**
+ * 获取处理后密码
+ * @param {String} prePWD 手动密码
+ * @return {String}  加密密码
+ */
+exports.getPwd = function(prePWD) {
+  return crypto.createHmac('SHA1', 'xjx').update(prePWD).digest('hex');
+}

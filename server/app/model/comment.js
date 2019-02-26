@@ -5,11 +5,11 @@ module.exports = app => {
   const Schema = mongoose.Schema;
 
   const CommentSchema = new Schema({
-    id: { type: Number },
-    userId: { type: Number },
-    blogId: { typ: Number },
-    parentId: { type: Number },
-    content: { type: String },
+    userId: { type: Number, required: true },
+    blogId: { type: Number, required: true },
+    parentId: { type: String, required: true, default: '' },
+    likes: { type: Number, required: true, default: 0 },
+    content: { type: String, required: true },
     createdAt: { type: Date },
     updatedAt: { type: Date },
   });
@@ -20,6 +20,11 @@ module.exports = app => {
     if (!this.createdAt) {
       this.createdAt = now;
     }
+    next();
+  });
+  CommentSchema.pre('update', function(next) {
+    const now = new Date();
+    this.updatedAt = now;
     next();
   });
   return mongoose.model('Comment', CommentSchema);
