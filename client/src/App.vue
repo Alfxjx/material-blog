@@ -24,18 +24,23 @@
     name: "app",
     data() {
       return {
-        list: {}
+        // list: {}
       }
     },
     created() {
-      this._getList()
+      this.$store.dispatch('getBlogList')  
     },
     methods: {
-      _getList() {
+      /* _getList() {
         getList().then((res) => {
-          this.list = res
+          this.list = this.$store.state.blogList
         })
         console.log(this.list)
+      } */
+    },
+    computed: {
+      list() {
+        return  this.$store.state.blogList
       }
     },
     components: {
