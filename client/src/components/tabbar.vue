@@ -1,16 +1,60 @@
 <template>
-  <md-toolbar>
-    <h3 class="md-title">this is tab</h3>
-    <router-link to="/index">index</router-link>
-  </md-toolbar>
+  <div class="toolbar-wrapper">
+    <md-content class="md-elevation-6 toolbar">
+      <span class="title">Hello</span>
+      <div class="router">
+        <router-link class="link" to="/index">
+          <md-icon class="icon">menu</md-icon>
+        </router-link>
+        <router-link class="link" to="/archive">
+          <md-icon class="icon">apps</md-icon>
+        </router-link>
+        <router-link class="link" to="/about">
+          <md-icon class="icon">account_box</md-icon>
+        </router-link>
+        <router-link class="link" to="/login">
+          <md-icon class="icon">group_add</md-icon>
+        </router-link>
+      </div>
+    </md-content>
+  </div>
 </template>
 
 <script type="text/ecmascript-6">
   export default {
-    name: "tabbar"
+    name: "tabbar",
+    data() {
+      return {}
+    }
   }
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
 
+  .toolbar-wrapper
+    position fixed
+    top 0
+    z-index 100
+    width 100%
+    left 0
+    background-color crimson
+    opacity 0.5
+    .toolbar
+      text-align left
+      height 50px
+      padding-top 15px
+      .title
+        display inline-block
+        margin 0 10px 0 10px
+        line-height 24px
+        height 24px
+        font-size 24px
+        color white
+      .router
+        display inline-block
+        vertical-align top
+        .link
+          margin-right 5px
+          .icon
+            color white
 </style>

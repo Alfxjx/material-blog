@@ -1,5 +1,5 @@
 <template>
-
+  <p>this is login</p>
 </template>
 
 <script type="text/ecmascript-6">
