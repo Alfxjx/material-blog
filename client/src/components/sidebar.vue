@@ -1,8 +1,13 @@
 <template>
 <div class="sidebar">
-  <md-content class="md-elevation-10">
+  <md-content class="md-elevation-5">
     <ul>
       <li v-for="(cat, index) in category" :key="index">{{ cat._id }}+{{ cat.count }}</li>
+    </ul>
+  </md-content>
+  <md-content class="md-elevation-5">
+    <ul>
+      <li v-for="(t, index) in tag" :key="index">{{ t._id }}+{{ t.count }}</li>
     </ul>
   </md-content>
 </div>
@@ -11,7 +16,8 @@
 <script type="text/ecmascript-6">
   export default {
     name: "sidebar",
-    props: ['category']
+    props: ['category', 'tag']
+    // 改为接受父组件数据
     // created() {
     //   this.$store.dispatch('getCategoryList')
     // },
@@ -25,4 +31,8 @@
 
 <style lang="stylus" rel="stylesheet/stylus">
 
+  ul
+    padding-left 0
+    li
+      list-style none
 </style>

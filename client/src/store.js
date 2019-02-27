@@ -1,44 +1,40 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { getCategory, getList } from './api'
+import { getCategory, getList, getTag } from './api'
 
 Vue.use(Vuex)
 
-const blogList = {
-  state: {
-    blogList: []
-  },
-  mutations: {
-    getBloglist (state, list) {
-      state.blogList = list
-    }
-  },
-  actions: {
-    async getBlogList ({ commit }) {
-      const list = await getList()
-      commit('getBloglist', list)
-    }
-  }
-}
-
-const category = {
-  state: {
-    categoryList: []
-  },
-  mutations: {
-    getCategoryList (state, list) {
-      state.categoryList = list
-    }
-  },
-  actions: {
-    async getCategoryList ({ commit }) {
-      const list = await getCategory
-      commit('getCategoryList', list)
-    }
-  }
-}
-
 export default new Vuex.Store(
-  blogList,
-  category
+  {
+    state: {
+      blogList: [],
+      categoryList: [],
+      tagList: []
+    },
+    mutations: {
+      getBloglist (state, list) {
+        state.blogList = list
+      },
+      getCategoryList (state, list) {
+        state.categoryList = list
+      },
+      getTagList (state, list) {
+        state.tagList = list
+      }
+    },
+    actions: {
+      async getBlogList ({ commit }) {
+        const list = await getList()
+        commit('getBloglist', list)
+      },
+      async getCategoryList ({ commit }) {
+        const list = await getCategory()
+        commit('getCategoryList', list)
+      },
+      async getTagList ({ commit }) {
+        const list = await getTag()
+        commit('getTagList', list)
+      }
+    }
+  }
 )
