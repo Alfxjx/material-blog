@@ -11,6 +11,7 @@ const STATUS_CODE = {
   NET_ERROR: 3004,
   DB_ERROR: 3004,
   FORBIDEN_ERROR: 3005,
+  NOT_FOUND_ERROR: 3006,
 };
 exports.ValidateError = msg => new BaseError(STATUS_CODE.VALIDATE_ERROR, msg || '校验失败');
 exports.AuthError = msg => new BaseError(STATUS_CODE.AUTH_ERROR, msg || '登录鉴权失败');
@@ -18,6 +19,7 @@ exports.BadParamsError = msg => new BaseError(STATUS_CODE.BAD_PARAMS_ERROR, msg 
 exports.NetError = msg => new BaseError(STATUS_CODE.NET_ERROR, msg || '网络错误');
 exports.DbError = msg => new BaseError(STATUS_CODE.DB_ERROR, msg || '数据库操作错误');
 exports.FBError = msg => new BaseError(STATUS_CODE.FORBIDEN_ERROR, msg || '不允许的操作');
+exports.NotFoundError = msg => new BaseError(STATUS_CODE.NOT_FOUND_ERROR, msg || '没有找到');
 
 exports.STATUS_CODE = STATUS_CODE;
 

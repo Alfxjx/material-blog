@@ -13,6 +13,14 @@ module.exports = app => {
     accessToken: { type: String },
     refreshToken: { type: String },
     tpUserName: { type: String },
+    likesTrack: { type: [{
+      blogId: String,
+      createdAt: Date,
+    }], default: [] },
+    viewTrack: { type: [{
+      blogId: String,
+      createdAt: Date,
+    }], default: [] },
     createdAt: { type: Date },
     updatedAt: { type: Date },
   });

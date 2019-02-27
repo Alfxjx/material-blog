@@ -82,4 +82,5 @@ exports.handleQuery = function(queryDTO) {
  */
 exports.getPwd = function(prePWD) {
   return crypto.createHmac('SHA1', 'xjx').update(prePWD).digest('hex');
-}
+};
+
