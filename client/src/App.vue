@@ -3,12 +3,13 @@
     <tabbar></tabbar>
     <span class="blank">1111</span>
     <router-view></router-view>
-    <footer></footer>
+    <bot></bot>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import tabbar from './components/tabbar'
+  import bot from './components/bot'
   export default {
     name: "app",
     data() {
@@ -18,7 +19,8 @@
     methods: {},
     computed: {},
     components: {
-      tabbar
+      tabbar, bot
+
     }
   }
 </script>
