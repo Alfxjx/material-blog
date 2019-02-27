@@ -166,6 +166,7 @@ module.exports = app => {
    * @apiUse error
    */
   router.get('/blog-tags', controller.blog.getTags);
+  router.put('/blog/like/:id', controller.blog.likeBlog);
   router.get('/form', controller.image.form);
   // x-csrf-token 头
   /**
@@ -213,16 +214,16 @@ module.exports = app => {
           statusCode: error.STATUS_CODE.SUC,
           msg: 'login ok',
           data: {
-            username:  ctx.user && ctx.user.username,
-            avatar:  ctx.user && ctx.user.avatar,
-            _id:  ctx.user && ctx.user._id,
+            username: ctx.user && ctx.user.username,
+            avatar: ctx.user && ctx.user.avatar,
+            _id: ctx.user && ctx.user._id,
           },
-        }
+        };
       } else {
         ctx.body = {
           statusCode: error.STATUS_CODE.AUTH_ERROR,
           msg: 'login fail',
-        }
+        };
       }
     }
     // ctx.redirect(url.href);

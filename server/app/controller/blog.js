@@ -4,6 +4,7 @@ const Controller = require('egg').Controller;
 const validator = require('validator');
 const _ = require('lodash');
 const error = require('../errors/errors');
+const { COUNT_TYPE } = require('../lib/constant');
 
 class BlogController extends Controller {
   /**
@@ -48,6 +49,21 @@ class BlogController extends Controller {
   async getBlogs() {
     const { ctx } = this;
     const _res = ctx.helper.handleQuery(ctx.request.query);
+    const realIp = ctx.req.headers['x-forwarded-for'] || ctx.ip;
+    const count = await ctx.model.Count.findOne({
+      ip: realIp,
+      type: COUNT_TYPE.HOME,
+    });
+    if (_.isNil(count)) {
+      await Promise.all(
+        [
+          ctx.model.Count.create({
+            ip: realIp,
+            type: COUNT_TYPE.HOME,
+          }),
+        ]
+      );
+    }
     const row = await ctx.model.Blog.find({
       ..._res.where,
     }, 'category tag desc image author createdAt title blogInfo').skip(_res.pagination.offset).limit(_res.pagination.size);
@@ -62,12 +78,47 @@ class BlogController extends Controller {
    */
   async getBlog() {
     const { ctx } = this;
+    const realIp = ctx.req.headers['x-forwarded-for'] || ctx.ip;
     ctx.helper.validate([
       { property: 'id', validateMethodes: [ _.isString ] },
     ], ctx.params);
     const row = await ctx.model.Blog.findOne({
       _id: ctx.params.id,
     });
+    if (_.isNil(row)) {
+      throw error.NotFoundError('没有此博客');
+    }
+    // 加入浏览轨迹
+    if (ctx.user) {
+      if (!ctx.user.viewTrack.find(view => {
+        return view.blogId === ctx.params.id;
+      })) {
+        ctx.user.viewTrack.push({
+          blogId: ctx.params.id,
+          createdAt: new Date(),
+        });
+        await ctx.user.save();
+      }
+    }
+    const count = await ctx.model.Count.findOne({
+      ip: realIp,
+      type: COUNT_TYPE.BLOG_VIEW,
+      blogId: ctx.params.id,
+    });
+    // 没有就增加浏览量
+    if (_.isNil(count)) {
+      row.blogInfo.viewCount += 1;
+      await Promise.all(
+        [
+          ctx.model.Count.create({
+            ip: realIp,
+            type: COUNT_TYPE.BLOG_VIEW,
+            blogId: ctx.params.id,
+          }),
+          row.save(),
+        ]
+      );
+    }
     ctx.body = {
       statusCode: error.STATUS_CODE.SUC,
       msg: '获取博客成功',
@@ -136,6 +187,53 @@ class BlogController extends Controller {
       msg: '获取标签文章数成功',
       data: _rows,
     };
+  }
+  /**
+   * 博客获得喜欢
+   */
+  async likeBlog() {
+    const { ctx } = this;
+    ctx.helper.validate([
+      { property: 'id', validateMethodes: [ _.isString ] },
+    ], ctx.params);
+    // const _rows = await ctx.model.Blog.group({ _id: '$category' });
+    const row = await ctx.model.Blog.findOne({
+      _id: ctx.params.id,
+    });
+    if (_.isNil(row)) {
+      throw error.NotFoundError('没有此博客');
+    }
+    const realIp = ctx.req.headers['x-forwarded-for'] || ctx.ip;
+    const count = await ctx.model.Count.findOne({
+      ip: realIp,
+      type: COUNT_TYPE.BLOG_LIKE,
+      blogId: ctx.params.id,
+    });
+    if (_.isNil(count)) {
+      await ctx.model.Count.create({
+        ip: realIp,
+        type: COUNT_TYPE.BLOG_LIKE,
+        blogId: ctx.params.id,
+      });
+      if (ctx.user) {
+        ctx.user.likesTrack.push({
+          blogId: ctx.params.id,
+          createdAt: new Date(),
+        });
+        await ctx.user.save();
+      }
+      row.blogInfo.likes += 1;
+      await row.save();
+      ctx.body = {
+        statusCode: error.STATUS_CODE.SUC,
+        msg: '喜欢博客成功',
+      };
+    } else {
+      ctx.body = {
+        statusCode: error.STATUS_CODE.SUC,
+        msg: '已经喜欢过了',
+      };
+    }
   }
 }
 

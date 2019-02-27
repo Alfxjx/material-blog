@@ -3,7 +3,7 @@
 const LocalStrategy = require('passport-local').Strategy;
 const GitHubStrategy = require('passport-github').Strategy;
 const _ = require('lodash');
-const { getPwd } = require('./app/extend/helper')
+const { getPwd } = require('./app/extend/helper');
 module.exports = app => {
   // 挂载 strategy
   app.passport.use(new LocalStrategy({
@@ -46,7 +46,7 @@ module.exports = app => {
         avatar: profile.photos[0].value,
         tpUserName: profile.username,
         username: profile.username,
-        accessToken: accessToken,
+        accessToken,
       });
     }
     app.logger.info('run at here after user.save()');
