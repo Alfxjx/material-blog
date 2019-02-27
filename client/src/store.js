@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { getList } from './api'
+import { getCategory, getList } from './api'
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
+const blogList = {
   state: {
-      blogList: []
+    blogList: []
   },
   mutations: {
     getBloglist (state, list) {
@@ -19,4 +19,26 @@ export default new Vuex.Store({
       commit('getBloglist', list)
     }
   }
-})
+}
+
+const category = {
+  state: {
+    categoryList: []
+  },
+  mutations: {
+    getCategoryList (state, list) {
+      state.categoryList = list
+    }
+  },
+  actions: {
+    async getCategoryList ({ commit }) {
+      const list = await getCategory
+      commit('getCategoryList', list)
+    }
+  }
+}
+
+export default new Vuex.Store(
+  blogList,
+  category
+)
