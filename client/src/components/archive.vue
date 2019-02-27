@@ -1,13 +1,10 @@
 <template>
-  <md-toolbar>
-    <h3 class="md-title">this is tab</h3>
-    <router-link to="/index">index</router-link>
-  </md-toolbar>
+
 </template>
 
 <script type="text/ecmascript-6">
   export default {
-    name: "tabbar"
+    name: "archive"
   }
 </script>
 
