@@ -27,6 +27,7 @@
   import top from '../components/top'
   import sidebar from '../components/sidebar'
   import { getCategory } from '../api'
+  // import { mapActions } from 'vuex'
   export default {
     name: "index.vue",
     data() {
@@ -45,10 +46,10 @@
     computed: {
       list() {
         return this.$store.state.blogList
-      },
-      categoryList() {
-        return this.$store.state.categoryList
       }
+      // category() {
+      //   return this.$store.state.categoryList
+      // }
     },
     components: {
       articlecard, top, sidebar
