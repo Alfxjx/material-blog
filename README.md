@@ -34,13 +34,15 @@ done:
 [
   19-2-23: 使用egg-init
   19-2-24: 完成了mongo集成，写了部分blog接口, passport-local
+  19-2-27: 普通登录和github登录完成 完成了博客浏览 网站浏览 喜欢博客 计数以及记录
 ]
 doing:
 [
-  搭建大致框架（egg）
+  nothing
 ]
 todolist:
 [
-  passport github登录
+  评论相关接口
+  用户相关接口：改头像，改描述
 ]
 ```
