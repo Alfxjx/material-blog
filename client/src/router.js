@@ -13,15 +13,16 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: '/index'
+      redirect: '/blog'
     },
     {
-      path: '/index',
+      path: '/blog',
       component: index
     },
     {
       path: '/blog/:id',
-      component: page
+      component: page,
+      props: true
     },
     {
       path: '/archive',

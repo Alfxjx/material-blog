@@ -42,6 +42,7 @@
     methods: {
       goPage() {
         console.log(this._id)
+        this.$router.push('/blog/' + this._id)
       }
     }
   }

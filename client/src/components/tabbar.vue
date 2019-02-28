@@ -4,7 +4,7 @@
       <md-content class="md-elevation-6 toolbar">
         <span class="title">Hello</span>
         <div class="router">
-          <router-link class="link" to="/index">
+          <router-link class="link" to="/blog">
             <md-icon class="icon">menu</md-icon>
           </router-link>
           <router-link class="link" to="/archive">
