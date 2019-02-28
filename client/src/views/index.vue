@@ -7,10 +7,12 @@
          :key="index"
          :title="item.title"
          :category="item.category"
+         :tag="item.tag"
          :desc="item.desc"
          :img="item.image"
          :author="item.author"
          :viewcount="item.blogInfo.viewcount"
+         :_id="item._id"
        ></articlecard>
        <p>总计{{ list.length }}篇文章</p>
      </div>

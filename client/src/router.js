@@ -4,6 +4,7 @@ import index from './views/index'
 import archive from './views/archive'
 import about from './views/about'
 import login from './views/login'
+import page from './views/page'
 
 Vue.use(Router)
 
@@ -17,6 +18,10 @@ export default new Router({
     {
       path: '/index',
       component: index
+    },
+    {
+      path: '/blog/:id',
+      component: page
     },
     {
       path: '/archive',
