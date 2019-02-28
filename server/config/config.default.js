@@ -18,8 +18,9 @@ module.exports = appInfo => {
   config.keys = appInfo.name + '_0619xjx';
 
   // add your middleware config here
-  config.middleware = [ 'logg' ];
+  config.middleware = [ 'handleQuery', 'logg' ];
   config.logg = {};
+  config.handleQuery = {};
   // add your user config here
   const userConfig = {
     // myAppName: 'egg',
@@ -42,10 +43,10 @@ module.exports = appInfo => {
     },
     domainWhiteList: [ '.github.com', '.alfxjx.club' ],
   };
-  /*   config.cors = {
+  config.cors = {
     origin: '*',
     allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH',
-  }; */
+  };
   config.onerror = {
     all(err, ctx) {
       // json hander

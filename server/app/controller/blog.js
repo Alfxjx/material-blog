@@ -48,8 +48,10 @@ class BlogController extends Controller {
    */
   async getBlogs() {
     const { ctx } = this;
-    const _res = ctx.helper.handleQuery(ctx.request.query);
-    const realIp = ctx.req.headers['x-forwarded-for'] || ctx.ip;
+    const _res = ctx.helper.handleQuery(ctx.request.queryMy);
+    this.logger.info('--conditon--');
+    this.logger.info(_res);
+    const realIp = ctx.helper.getRealIp(ctx.req.headers['x-forwarded-for']) || ctx.ip;
     const count = await ctx.model.Count.findOne({
       ip: realIp,
       type: COUNT_TYPE.HOME,
@@ -78,7 +80,7 @@ class BlogController extends Controller {
    */
   async getBlog() {
     const { ctx } = this;
-    const realIp = ctx.req.headers['x-forwarded-for'] || ctx.ip;
+    const realIp = ctx.helper.getRealIp(ctx.req.headers['x-forwarded-for']) || ctx.ip;
     ctx.helper.validate([
       { property: 'id', validateMethodes: [ _.isString ] },
     ], ctx.params);
@@ -203,7 +205,7 @@ class BlogController extends Controller {
     if (_.isNil(row)) {
       throw error.NotFoundError('没有此博客');
     }
-    const realIp = ctx.req.headers['x-forwarded-for'] || ctx.ip;
+    const realIp = ctx.helper.getRealIp(ctx.req.headers['x-forwarded-for']) || ctx.ip;
     const count = await ctx.model.Count.findOne({
       ip: realIp,
       type: COUNT_TYPE.BLOG_LIKE,

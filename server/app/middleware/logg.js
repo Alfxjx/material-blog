@@ -7,7 +7,7 @@ module.exports = () => {
     ctx.app.logger.info(ctx.request.method, ctx.request.url, 'is coming');
     await next();
     const dateEnd = Date.now();
-    const time = dateEnd - dateStart
+    const time = dateEnd - dateStart;
     ctx.app.logger.info(ctx.request.method, ctx.request.url, 'is end', 'take time:' + time + 'ms');
   };
 };

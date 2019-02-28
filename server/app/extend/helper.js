@@ -83,4 +83,14 @@ exports.handleQuery = function(queryDTO) {
 exports.getPwd = function(prePWD) {
   return crypto.createHmac('SHA1', 'xjx').update(prePWD).digest('hex');
 };
+/**
+ * 获取真实ip
+ * @param {String} x_forwarded_for x_forwarded_for头
+ * @return {String | undefined} 返回ip或者空
+ */
+exports.getRealIp = function(x_forwarded_for) {
+  if (x_forwarded_for) {
+    return (_.last(x_forwarded_for.split(','))).trim();
+  }
+};
 
