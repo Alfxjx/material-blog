@@ -32,7 +32,11 @@
 <style lang="stylus" rel="stylesheet/stylus">
 
   ul
+    margin-top 20px
     padding-left 0
+    text-align left
     li
       list-style none
+      display inline-block
+      margin 5px 3px 5px 3px
 </style>

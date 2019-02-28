@@ -1,5 +1,5 @@
 <template>
- <div>
+ <div class="index">
    <div class="index md-layout md-gutter md-alignment-center-top">
      <div class="md-layout-item md-large-size-66 md-medium-size-66 md-small-size-100">
        <articlecard
@@ -62,4 +62,7 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
+  .index
+    position relative
+    width 100%
 </style>

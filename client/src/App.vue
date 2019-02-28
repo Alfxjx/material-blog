@@ -1,9 +1,11 @@
 <template>
   <div id="app">
-    <tabbar></tabbar>
-    <span class="blank">1111</span>
-    <router-view></router-view>
-    <bot></bot>
+    <div class="content">
+      <tabbar></tabbar>
+      <span class="blank">1111</span>
+      <router-view></router-view>
+    </div>
+    <bot class="bot"></bot>
   </div>
 </template>
 
@@ -27,13 +29,16 @@
 
 <style lang="stylus">
   #app
-    font-family 'Avenir', Helvetica, Arial, sans-serif
-    -webkit-font-smoothing antialiased
-    -moz-osx-font-smoothing grayscale
+    display flex
+    flex-flow column
+    min-height 100vh
     text-align center
-    color #2c3e50
-  .blank
-    line-height 60px
-    height 60px
-    color white
+    .content
+      flex 1
+      .blank
+        line-height 60px
+        height 60px
+        color white
+    .bot
+      flex 0
 </style>

@@ -1,5 +1,7 @@
 <template>
-  <p>this is about</p>
+  <div>
+    <p>this is about</p>
+  </div>
 </template>
 
 <script type="text/ecmascript-6">
