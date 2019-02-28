@@ -16,7 +16,7 @@
             <md-field v-for="(item, index) in itemList" :key="index">
               <md-icon>{{item.icon}}</md-icon>
               <label class="login-label">{{item.name}}</label>
-              <md-input v-model="item.value" :type="item.type" v-on:blur="checkInput(item.type)"></md-input>
+              <md-input v-model="item.value" :data-id="item.type" :type="item.type" @blur="checkInput"></md-input>
             </md-field>
           </md-card-content>
           <md-card-actions>
@@ -42,6 +42,7 @@
           height: "0px",
         },
         backgroundSet: 'url(' + loginBackImage +') no-repeat fixed center',
+        checkInputLock: true,
       }
     },
     created() {
@@ -51,22 +52,35 @@
       githubLogin() {
         // window.location.href = "http://www.alfxjx.club/api-blog/auth/github"
       },
-      checkInput(type) {
-        switch(type) {
+      checkInput(event) {
+        const that = this;
+        console.log(event.target.dataset.id)
+        if (!this.checkInputLock) {
+          return;
+        }
+        switch(event.target.dataset.id) {
           case 'text':
+            this.checkInputLock = false;
             if (this.itemList[0].value.length > 6 && this.itemList[0].value.length < 20) {
               /* 调用 用户名 是否存在接口， 不存在就toast警告他*/
 
             } else {
-              // todo: 用一些库的 toast 组件， 别用alert
-              alert("用户不存在")
+              this.$store.dispatch('changeToaste', {myAlertStatus: true, myAlertContent: '用户名格式不正确(6-20位)'});
             }
             break;
           case 'password':
+            this.checkInputLock = false;
             if(!/[_\w]{6,20}/.test(this.itemList[1].value)){
-              alert("密码格式错误")
+              this.$store.dispatch('changeToaste', {myAlertStatus: true, myAlertContent: '密码格式错误(6-20位,由数字字母以及下划线组成)'});
             }
+            break;
+          default:
+            break;
         }
+        // 释放锁
+        setTimeout(function() {
+          that.checkInputLock = true;
+        }, 1000)
       },
       localLogin() {
         /* 

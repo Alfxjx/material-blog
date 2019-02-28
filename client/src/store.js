@@ -9,7 +9,19 @@ export default new Vuex.Store(
     state: {
       blogList: [],
       categoryList: [],
-      tagList: []
+      tagList: [],
+
+      /**
+       * toast相关
+       */
+      myConfirmStatus: false,
+      myAlertStatus: false,
+      myAlertTitle: 'notice',
+      myAlertContent: 'Your post <strong>Material Design is awesome</strong> has been created.',
+      myConfirmTitle: 'Use Google\'s location service?',
+      myConfirmContent: 'Let Google help apps determine location. <br> This means sending <strong>anonymous</strong> location data to Google, even when no apps are running.',
+      myConfirmAgreeEvent: () => console.log('you confirm'),
+      myConfirmDisagreeEvent: () => console.log('you disconfirm')
     },
     mutations: {
       getBloglist (state, list) {
@@ -20,6 +32,12 @@ export default new Vuex.Store(
       },
       getTagList (state, list) {
         state.tagList = list
+      },
+      changeToaste (state, payload) {
+        // 下面这种方法替换了state引用，导致state断了， 不能及时反映数据改变
+        // state = { ...state, ...payload }
+        // 要用这种
+        Object.assign(state, payload)
       }
     },
     actions: {
@@ -34,6 +52,15 @@ export default new Vuex.Store(
       async getTagList ({ commit }) {
         const list = await getTag()
         commit('getTagList', list)
+      },
+      async changeToaste ({ commit, dispatch }, payload) {
+        commit('changeToaste', payload)
+        // 重置myAlertStatus
+        if (payload.myAlertStatus) {
+          setTimeout(function() {
+            dispatch('changeToaste', { myAlertStatus: false })
+          }, 500)
+        }
       }
     }
   }
