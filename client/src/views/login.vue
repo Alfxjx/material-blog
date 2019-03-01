@@ -71,7 +71,6 @@
         }
         switch (event.target.dataset.id) {
           case 'text':
-<<<<<<< HEAD
             that.checkInputLock = false
             if (that.itemList[0].value.length >= 6 && that.itemList[0].value.length <= 20) {
               /* 调用 用户名 是否存在接口， 不存在就toast警告他*/
@@ -93,29 +92,6 @@
             if(!/[_\w]{6,20}/.test(that.itemList[1].value)){
               that.itemList[1].name = '密码格式错误(6-20位,由数字字母以及下划线组成'
               that.itemList[1].showWarn = true
-=======
-            that.checkInputLock = false
-            if (that.itemList[0].value.length >= 6 && that.itemList[0].value.length <= 20) {
-              /* 调用 用户名 是否存在接口， 不存在就toast警告他*/
-              const exist = await generalRequest('/user/check-username?username=' + that.itemList[0].value, 'get');
-              if (!exist) {
-                that.itemList[0].name = '用户名不存在'
-                that.itemList[0].showWarn = 1
-              } else {
-                that.itemList[0].name = 'username checked'
-                that.itemList[0].showWarn = 2
-              }
-            } else {
-              that.itemList[0].name = '用户名格式不正确(6-20位)'
-              that.itemList[0].showWarn = 1
-            }
-            break
-          case 'password':
-            that.checkInputLock = false;
-            if(!/[_\w]{6,20}/.test(that.itemList[1].value)){
-              that.itemList[1].name = '密码格式错误(6-20位,由数字字母以及下划线组成'
-              that.itemList[1].showWarn = true
->>>>>>> 2e0402198751cdbe67042ead192ec57ce15fe171
             }
             break
           default:

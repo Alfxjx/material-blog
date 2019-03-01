@@ -53,11 +53,7 @@
     },
     computed: {
       myAlertStatus() {
-<<<<<<< HEAD
         const that = this;
-=======
-        const that = this;
->>>>>>> 2e0402198751cdbe67042ead192ec57ce15fe171
         if (!that.actSwitch) {
           that.act = that.$store.state.myAlertStatus
         }
