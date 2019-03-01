@@ -53,13 +53,29 @@
     },
     computed: {
       myAlertStatus() {
-        const that = this
+<<<<<<< HEAD
+        const that = this;
+=======
+        const that = this;
+>>>>>>> 2e0402198751cdbe67042ead192ec57ce15fe171
         if (!that.actSwitch) {
           that.act = that.$store.state.myAlertStatus
         }
         that.actSwitch = that.act
         return that.$store.state.myAlertStatus
       },
+      // myAlertStatus: {
+      //   get: function () {
+      //     return this.act
+      //   },
+      //   set: function () {
+      //     if (!this.actSwitch) {
+      //       this.act = this.$store.state.myAlertStatus
+      //     }
+      //     this.actSwitch = this.act
+      //     return this.$store.state.myAlertStatus
+      //   }
+      // },
       myAlertTitle() {
         return this.$store.state.myAlertTitle
       },
