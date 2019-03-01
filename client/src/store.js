@@ -21,7 +21,13 @@ export default new Vuex.Store(
       myConfirmTitle: 'Use Google\'s location service?',
       myConfirmContent: 'Let Google help apps determine location. <br> This means sending <strong>anonymous</strong> location data to Google, even when no apps are running.',
       myConfirmAgreeEvent: () => console.log('you confirm'),
-      myConfirmDisagreeEvent: () => console.log('you disconfirm')
+      myConfirmDisagreeEvent: () => console.log('you disconfirm'),
+
+      /**
+       * 用户相关
+       */
+      username: '',
+      avatar: ''
     },
     mutations: {
       getBloglist (state, list) {
@@ -37,6 +43,9 @@ export default new Vuex.Store(
         // 下面这种方法替换了state引用，导致state断了， 不能及时反映数据改变
         // state = { ...state, ...payload }
         // 要用这种
+        Object.assign(state, payload)
+      },
+      userInfo (state, payload) {
         Object.assign(state, payload)
       }
     },
@@ -61,6 +70,9 @@ export default new Vuex.Store(
             dispatch('changeToaste', { myAlertStatus: false })
           }, 500)
         }
+      },
+      userInfo({ commit }, payload) {
+        commit('userInfo', payload)
       }
     }
   }
