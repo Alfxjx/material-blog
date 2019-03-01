@@ -16,8 +16,8 @@
             <p class="login-p">或者普通登录</p>
             <md-field v-for="(item, index) in itemList" :key="index">
               <md-icon>{{item.icon}}</md-icon>
-              <label class="login-label">{{item.name}}</label>
-              <md-input v-model="item.value" :data-id="item.type" :type="item.type" @blur="checkInput"></md-input>
+              <label class="login-label" :class="{'login-info-red': item.showWarn === 1, 'login-info-green': item.showWarn === 2}">{{item.name}}</label>
+              <md-input v-model="item.value" :data-id="item.type" :type="item.type" @blur="checkInput" @focus="closeError(index)"></md-input>
             </md-field>
           </md-card-content>
           <md-card-actions>
@@ -37,46 +37,61 @@
     data() {
       return {
         itemList: [
-          { icon: 'mood', name: "username...", value: "", type: "text" },
-          { icon: 'vpn_key', name: "password...", value: "", type: "password" }
+          { icon: 'mood', name: "username...", value: "", type: "text", showWarn: 0 },
+          { icon: 'vpn_key', name: "password...", value: "", type: "password", showWarn: 0 }
         ],
         myLayout: {
           height: "0px"
         },
         backgroundSet: 'url(' + loginBackImage + ') no-repeat fixed center',
-        checkInputLock: true
+        checkInputLock: true,
       }
     },
     created() {
       this.myLayout.height = (document.body.clientHeight - 300) + 'px'
     },
     methods: {
-      githubLogin() {
-        // window.location.href = "http://www.alfxjx.club/api-blog/auth/github"
+      closeError(index) {
+        if (index === 0) {
+          this.itemList[index].name = "username..."
+          this.itemList[index].showWarn = 0
+        } else {
+          this.itemList[index].name = "password..."
+          this.infoIndex = 0;
+          this.itemList[index].showWarn = 0
+        }
       },
-      checkInput(event) {
+      githubLogin() {
+        window.location.href = "http://www.alfxjx.club/api-blog/auth/github"
+      },
+      async checkInput(event) {
         const that = this
-        console.log(event.target.dataset.id)
-        if (!this.checkInputLock) {
+        if (!that.checkInputLock) {
           return
         }
         switch (event.target.dataset.id) {
           case 'text':
-            this.checkInputLock = false
-            if (this.itemList[0].value.length > 6 && this.itemList[0].value.length < 20) {
+            that.checkInputLock = false
+            if (that.itemList[0].value.length >= 6 && that.itemList[0].value.length <= 20) {
               /* 调用 用户名 是否存在接口， 不存在就toast警告他*/
-              const exist = await get('/user/check-username')();
+              const exist = await generalRequest('/user/check-username?username=' + that.itemList[0].value, 'get');
               if (!exist) {
-                this.$store.dispatch('changeToaste', {myAlertStatus: true, myAlertContent: '用户名不存在'})
+                that.itemList[0].name = '用户名不存在'
+                that.itemList[0].showWarn = 1
+              } else {
+                that.itemList[0].name = 'username checked'
+                that.itemList[0].showWarn = 2
               }
             } else {
-              this.$store.dispatch('changeToaste', {myAlertStatus: true, myAlertContent: '用户名格式不正确(6-20位)'})
+              that.itemList[0].name = '用户名格式不正确(6-20位)'
+              that.itemList[0].showWarn = 1
             }
             break
           case 'password':
-            this.checkInputLock = false;
-            if(!/[_\w]{6,20}/.test(this.itemList[1].value)){
-              this.$store.dispatch('changeToaste', {myAlertStatus: true, myAlertContent: '密码格式错误(6-20位,由数字字母以及下划线组成)'})
+            that.checkInputLock = false;
+            if(!/[_\w]{6,20}/.test(that.itemList[1].value)){
+              that.itemList[1].name = '密码格式错误(6-20位,由数字字母以及下划线组成'
+              that.itemList[1].showWarn = true
             }
             break
           default:
@@ -103,6 +118,8 @@
           setTimeout(() => {
             that.$route.push({ path: "/" })
           }, 2000)
+        } else {
+          this.$store.dispatch('changeToaste', {myAlertStatus: true, myAlertContent: '用户名或密码错误'})
         }
       }
     }
@@ -143,6 +160,10 @@
       .md-card-content
         .login-label
           color rgba(44, 44, 44, .8)
+        .login-info-red
+          color red
+        .login-info-green
+          color green
         .login-p
           color rgba(44, 44, 44, .8)
     .md-primary

@@ -12,9 +12,9 @@ export function get(url) {
     return axios.get(baseUrl + url, {
       params
     }).then((res) => {
-      const { statusCode, msg, data } = res.data
+      const { statusCode, data } = res.data
+      console.log(res.data)
       if (statusCode === 1) {
-        console.log(msg)
         return data
       }
     }).catch((e) => {
@@ -76,11 +76,10 @@ instance.interceptors.request.use(function (config) {
 
 export async function generalRequest(url, method, params) {
   const res = await instance[method](baseUrl + url, params)
-  const { statusCode, msg, data } = res.data
-  console.log(msg)
-  if (statusCode.statusCode !== 1) {
+  const { statusCode } = res.data
+  if (statusCode !== 1) {
     return false
   } else {
-    return data
+    return res.data
   }
 };

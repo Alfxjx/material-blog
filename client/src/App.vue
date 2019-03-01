@@ -52,25 +52,26 @@
       }
     },
     computed: {
-      // myAlertStatus() {
-      //   if (!this.actSwitch) {
-      //     this.act = this.$store.state.myAlertStatus
-      //   }
-      //   this.actSwitch = this.act
-      //   return this.$store.state.myAlertStatus
-      // },
-      myAlertStatus: {
-        get: function () {
-          return this.act
-        },
-        set: function () {
-          if (!this.actSwitch) {
-            this.act = this.$store.state.myAlertStatus
-          }
-          this.actSwitch = this.act
-          return this.$store.state.myAlertStatus
+      myAlertStatus() {
+        const that = this;
+        if (!that.actSwitch) {
+          that.act = that.$store.state.myAlertStatus
         }
+        that.actSwitch = that.act
+        return that.$store.state.myAlertStatus
       },
+      // myAlertStatus: {
+      //   get: function () {
+      //     return this.act
+      //   },
+      //   set: function () {
+      //     if (!this.actSwitch) {
+      //       this.act = this.$store.state.myAlertStatus
+      //     }
+      //     this.actSwitch = this.act
+      //     return this.$store.state.myAlertStatus
+      //   }
+      // },
       myAlertTitle() {
         return this.$store.state.myAlertTitle
       },
