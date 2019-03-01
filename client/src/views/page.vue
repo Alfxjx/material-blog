@@ -1,11 +1,12 @@
 <template>
   <div>
     <p>this is {{ id }}</p>
+    <p>{{ content }}</p>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-  import { get } from '../api/helper'
+  import { getContent } from '../api/helper'
 
   export default {
     name: "page",
@@ -16,10 +17,8 @@
       }
     },
     created() {
-      get('/blog/' + this.id).then((res) => {
-        this.content = res
-        console.log(this.content)
-      })
+      this.content = getContent(this.id)
+      console.log(this.content) //显示undefined
     }
   }
 </script>

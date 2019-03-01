@@ -103,20 +103,24 @@
         }, 1000)
       },
       async localLogin() {
-        /* 
+        /*
         调用登录api
         失败就提示登录错误， 重新填写
         成功就跳回到刚才的页面
         */
         const res = await generalRequest('/auth/local', 'post', {
           username: this.this.itemList[0].value,
-          password: this.this.itemList[1].value,
+          password: this.this.itemList[1].value
         })
         const that = this
         if (res) {
+<<<<<<< HEAD
           this.$store.dispatch('changeToaste', {myAlertStatus: true, myAlertContent: '登录成功'})
           localStorage.setItem('username', res.data.username)
           localStorage.setItem('avatar', res.data.avatar)
+=======
+          this.$store.dispatch('changeToaste', { myAlertStatus: true, myAlertContent: '登录成功' })
+>>>>>>> 847fb5ad2f5dfbdcb4e95056160efdd4f691b5d7
           setTimeout(() => {
             that.$route.push({ path: "/" })
           }, 2000)

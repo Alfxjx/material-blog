@@ -6,6 +6,7 @@ const getTag = get('/blog-tags')
 // const getContent = get('/blog/:id')
 
 export {
+  get,
   getList,
   getCategory,
   getTag
