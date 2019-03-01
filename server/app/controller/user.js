@@ -35,6 +35,26 @@ class UserController extends Controller {
       };
     }
   }
+  // 用户存不存在
+  async checkUserName() {
+    const { ctx } = this;
+    const { username } = ctx.request.query;
+    ctx.helper.validate([
+      { property: 'username', validateMethodes: [ _.isString, v => v.length > 6 && v.length < 20 ] },
+    ], ctx.request.query);
+    const user = await ctx.model.User.findOne({ username });
+    if (!_.isNil(user)) {
+      ctx.body = {
+        statusCode: error.STATUS_CODE.SUC,
+        msg: '用户存在',
+      };
+    } else {
+      ctx.body = {
+        statusCode: error.STATUS_CODE.NOT_FOUND_ERROR,
+        msg: '用户不存在',
+      };
+    }
+  }
 }
 
 module.exports = UserController;

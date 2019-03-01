@@ -278,6 +278,22 @@ module.exports = app => {
    */
   router.post('/registry/local', app.controller.user.registry);
   /**
+   * @api {get} /user/check-username login-用户名存在吗
+   * @apiName checkUsername
+   * @apiGroup Login
+   * @apiDescription 注意.
+   * 使用xhr
+   * @apiParam {String} username 用户名.
+   * @apiSuccessExample Success-Response:
+   *     HTTP/1.1 200 OK
+   *     {
+   *       'statusCode': 1,
+   *       'msg': '用户名存在'
+   *      }
+   * @apiUse error
+   */
+  router.get('/user/check-username', app.controller.user.checkUserName);
+  /**
    * @api {get} /auth/github login-github登陆
    * @apiName githubLogin
    * @apiGroup Login
