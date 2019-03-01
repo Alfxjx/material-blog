@@ -39,7 +39,7 @@ export function getContent(id) {
 const axiosBaseConfig = {
     // baseURL: prefix,
     timeout: 10000,
-    headers: { 'Content-Type': 'appliction/json' },
+    // headers: { 'Content-Type': 'appliction/json' },
 
     // 跨域请求，是否带上认证信息
     withCredentials: true, // default
@@ -56,10 +56,11 @@ const axiosBaseConfig = {
       // 加入token？
       const token = sessionStorage.getItem('_csrfToken')
       if (token) {
-        headers['_csrfToken'] = token
+        headers['x-csrf-token'] = token
       }
       // 请求对象转换成json字符串
       if (typeof data === 'object') {
+        headers['Content-Type'] = 'appliction/json'
         return qs.stringify(data)
       }
       return data
@@ -86,7 +87,17 @@ instance.interceptors.request.use(function (config) {
   // Do something with request error
   return Promise.reject(error)
 })
-
+// Add a response interceptor
+axios.interceptors.response.use(function (response) {
+  if (response.headers._csrfToken) {
+    console.log("_csrfToken:" + response.headers._csrfToken)
+    localStorage.setItem('_csrfToken', response.headers._csrfToken)
+  }
+  return response
+}, function (error) {
+  // Do something with response error
+  return Promise.reject(error)
+})
 export async function generalRequest(url, method, params) {
   const res = await instance[method](baseUrl + url, params)
   const { statusCode } = res.data

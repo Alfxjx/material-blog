@@ -114,7 +114,9 @@
         })
         const that = this
         if (res) {
-          this.$store.dispatch('changeToaste', { myAlertStatus: true, myAlertContent: '登录成功' })
+          this.$store.dispatch('changeToaste', {myAlertStatus: true, myAlertContent: '登录成功'})
+          localStorage.setItem('username', res.data.username)
+          localStorage.setItem('avatar', res.data.avatar)
           setTimeout(() => {
             that.$route.push({ path: "/" })
           }, 2000)
@@ -131,8 +133,14 @@
     display flex
     justify-content center
     align-items center
-    .md-layout-item
-      min-width 26rem !important
+    @media screen and (min-width: 500px)
+      .md-layout-item
+        min-width 26rem !important
+    @media screen and (max-width: 500px)
+      .md-alignment-center-center
+        width 100%
+      .md-layout-item
+        min-width 80% !important
     .card-title
       color white
       font-weight 900
