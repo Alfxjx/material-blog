@@ -6,7 +6,7 @@
       <router-view></router-view>
     </div>
     <bot class="bot"></bot>
-    
+
     <md-dialog-alert
       :md-active.sync="act"
       :md-title.sync="myAlertTitle"
@@ -30,15 +30,15 @@
     data() {
       return {
         act: false,
-        actSwitch: false,
+        actSwitch: false
       }
     },
     created() {},
     methods: {
       testToast() {
-        const that = this;
+        const that = this
         console.log('** testToast exec')
-        that.$store.dispatch('changeToaste', {myAlertStatus: true, myAlertTitle: "fuckboy"});
+        that.$store.dispatch('changeToaste', { myAlertStatus: true, myAlertTitle: "fuckboy" })
         // 方法1： 这里的console不为别的, 只是为了调起myAlertStatus这个计算属性的getter
         // 使得computed.myAlertStatus这个方法执行
         // 目前用了方法2： 把myAlertStatus绑在class上， 他就一直在执行， 执行得有点过多了
@@ -52,34 +52,46 @@
       }
     },
     computed: {
-      myAlertStatus() {
-        if(!this.actSwitch) {
-          this.act = this.$store.state.myAlertStatus
+      // myAlertStatus() {
+      //   if (!this.actSwitch) {
+      //     this.act = this.$store.state.myAlertStatus
+      //   }
+      //   this.actSwitch = this.act
+      //   return this.$store.state.myAlertStatus
+      // },
+      myAlertStatus: {
+        get: function () {
+          return this.act
+        },
+        set: function () {
+          if (!this.actSwitch) {
+            this.act = this.$store.state.myAlertStatus
+          }
+          this.actSwitch = this.act
+          return this.$store.state.myAlertStatus
         }
-        this.actSwitch = this.act
-        return this.$store.state.myAlertStatus;
       },
       myAlertTitle() {
-        return this.$store.state.myAlertTitle;
+        return this.$store.state.myAlertTitle
       },
       myAlertContent() {
-        return this.$store.state.myAlertContent;
+        return this.$store.state.myAlertContent
       },
       myConfirmStatus() {
-        return this.$store.state.myConfirmStatus;
+        return this.$store.state.myConfirmStatus
       },
       myConfirmTitle() {
-        return this.$store.state.myConfirmTitle;
+        return this.$store.state.myConfirmTitle
       },
       myConfirmContent() {
-        return this.$store.state.myConfirmContent;
+        return this.$store.state.myConfirmContent
       },
       myConfirmAgreeEvent() {
-        return this.$store.state.myConfirmAgreeEvent;
+        return this.$store.state.myConfirmAgreeEvent
       },
       myConfirmDisagreeEvent() {
-        return this.$store.state.myConfirmDisagreeEvent;
-      },
+        return this.$store.state.myConfirmDisagreeEvent
+      }
 
     },
     components: {
