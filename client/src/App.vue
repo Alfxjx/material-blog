@@ -52,25 +52,22 @@
       }
     },
     computed: {
-      // myAlertStatus() {
-      //   if (!this.actSwitch) {
-      //     this.act = this.$store.state.myAlertStatus
-      //   }
-      //   this.actSwitch = this.act
-      //   return this.$store.state.myAlertStatus
-      // },
-      myAlertStatus: {
-        get: function () {
-          return this.act
-        },
-        set: function () {
-          if (!this.actSwitch) {
-            this.act = this.$store.state.myAlertStatus
-          }
-          this.actSwitch = this.act
-          return this.$store.state.myAlertStatus
+      myAlertStatus() {
+        if (!this.actSwitch) {
+          this.act = this.$store.state.myAlertStatus
         }
+        this.actSwitch = this.act
+        return this.$store.state.myAlertStatus
       },
+      // myAlertStatus: {
+      //   set: function () {
+      //     if (!this.actSwitch) {
+      //       this.act = this.$store.state.myAlertStatus
+      //     }
+      //     this.actSwitch = this.act
+      //     return this.$store.state.myAlertStatus
+      //   }
+      // },
       myAlertTitle() {
         return this.$store.state.myAlertTitle
       },
