@@ -5,6 +5,7 @@ import archive from './views/archive'
 import about from './views/about'
 import login from './views/login'
 import page from './views/page'
+import edit from './views/edit'
 
 Vue.use(Router)
 
@@ -35,6 +36,10 @@ export default new Router({
     {
       path: '/login',
       component: login
+    },
+    {
+      path: '/edit',
+      component: edit
     }
   ]
 })

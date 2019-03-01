@@ -20,6 +20,9 @@
           <router-link class="link" to="/login">
             <md-icon class="icon">group_add</md-icon>
           </router-link>
+          <router-link class="link" to="/edit">
+            <md-icon class="icon">create</md-icon>
+          </router-link>
         </div>
       </md-content>
     </div>
