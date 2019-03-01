@@ -114,13 +114,9 @@
         })
         const that = this
         if (res) {
-<<<<<<< HEAD
           this.$store.dispatch('changeToaste', {myAlertStatus: true, myAlertContent: '登录成功'})
           localStorage.setItem('username', res.data.username)
           localStorage.setItem('avatar', res.data.avatar)
-=======
-          this.$store.dispatch('changeToaste', { myAlertStatus: true, myAlertContent: '登录成功' })
->>>>>>> 847fb5ad2f5dfbdcb4e95056160efdd4f691b5d7
           setTimeout(() => {
             that.$route.push({ path: "/" })
           }, 2000)
