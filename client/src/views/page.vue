@@ -6,7 +6,8 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import { getContent } from '../api/helper'
+  // import { getContent } from '../api/helper'
+  import { get } from '../api/index'
 
   export default {
     name: "page",
@@ -17,8 +18,12 @@
       }
     },
     created() {
-      this.content = getContent(this.id)
-      console.log(this.content) //显示undefined
+      // this.content = getContent(this.id)
+      // console.log(this.content)
+      get('/blog/' + this.id)().then((res) => {
+        this.content = res
+      })
+      console.log(this.content)
     }
   }
 </script>

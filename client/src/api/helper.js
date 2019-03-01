@@ -12,8 +12,8 @@ export function get(url) {
     return axios.get(baseUrl + url, {
       params
     }).then((res) => {
-      const { statusCode, data } = res.data
-      console.log(res.data)
+      const { statusCode, msg, data } = res.data
+      console.log(msg)
       if (statusCode === 1) {
         return data
       }
