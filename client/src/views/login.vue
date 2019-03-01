@@ -133,8 +133,14 @@
     display flex
     justify-content center
     align-items center
-    .md-layout-item
-      min-width 26rem !important
+    @media screen and (min-width: 500px)
+      .md-layout-item
+        min-width 26rem !important
+    @media screen and (max-width: 500px)
+      .md-alignment-center-center
+        width 100%
+      .md-layout-item
+        min-width 80% !important
     .card-title
       color white
       font-weight 900
