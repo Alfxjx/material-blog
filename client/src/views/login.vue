@@ -54,7 +54,7 @@
       githubLogin() {
         // window.location.href = "http://www.alfxjx.club/api-blog/auth/github"
       },
-      checkInput(event) {
+      async checkInput(event) {
         const that = this
         console.log(event.target.dataset.id)
         if (!this.checkInputLock) {
@@ -64,19 +64,19 @@
           case 'text':
             this.checkInputLock = false
             if (this.itemList[0].value.length > 6 && this.itemList[0].value.length < 20) {
-              /* 调用 用户名 是否存在接口， 不存在就toast警告他*/
-              const exist = await get('/user/check-username')();
+              /* 调用 用户名 是否存在接口， 不存在就toast警告他 */
+              const exist = await get('/user/check-username')()
               if (!exist) {
-                this.$store.dispatch('changeToaste', {myAlertStatus: true, myAlertContent: '用户名不存在'})
+                this.$store.dispatch('changeToaste', { myAlertStatus: true, myAlertContent: '用户名不存在' })
               }
             } else {
-              this.$store.dispatch('changeToaste', {myAlertStatus: true, myAlertContent: '用户名格式不正确(6-20位)'})
+              this.$store.dispatch('changeToaste', { myAlertStatus: true, myAlertContent: '用户名格式不正确(6-20位)' })
             }
             break
           case 'password':
-            this.checkInputLock = false;
-            if(!/[_\w]{6,20}/.test(this.itemList[1].value)){
-              this.$store.dispatch('changeToaste', {myAlertStatus: true, myAlertContent: '密码格式错误(6-20位,由数字字母以及下划线组成)'})
+            this.checkInputLock = false
+            if (!/[_\w]{6,20}/.test(this.itemList[1].value)) {
+              this.$store.dispatch('changeToaste', { myAlertStatus: true, myAlertContent: '密码格式错误(6-20位,由数字字母以及下划线组成)' })
             }
             break
           default:
@@ -88,18 +88,18 @@
         }, 1000)
       },
       async localLogin() {
-        /* 
+        /*
         调用登录api
         失败就提示登录错误， 重新填写
         成功就跳回到刚才的页面
         */
         const res = await generalRequest('/auth/local', 'post', {
           username: this.this.itemList[0].value,
-          password: this.this.itemList[1].value,
+          password: this.this.itemList[1].value
         })
         const that = this
         if (res) {
-          this.$store.dispatch('changeToaste', {myAlertStatus: true, myAlertContent: '登录成功'})
+          this.$store.dispatch('changeToaste', { myAlertStatus: true, myAlertContent: '登录成功' })
           setTimeout(() => {
             that.$route.push({ path: "/" })
           }, 2000)

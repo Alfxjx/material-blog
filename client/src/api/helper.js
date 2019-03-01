@@ -22,6 +22,19 @@ export function get(url) {
     })
   }
 }
+
+export function getContent(id) {
+  axios.get(baseUrl + '/blog/' + id).then((res) => {
+    const { statusCode, msg, data } = res.data
+    if (statusCode === 1) {
+      console.log(msg)
+      console.log(data)
+      return data
+    }
+  }).catch((e) => {
+    console.log('error')
+  })
+}
 // axios配置
 const axiosBaseConfig = {
     // baseURL: prefix,

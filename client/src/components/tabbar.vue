@@ -2,7 +2,11 @@
   <div>
     <div class="toolbar-wrapper">
       <md-content class="md-elevation-6 toolbar">
-        <span class="title">Hello</span>
+        <span class="title">
+          <router-link to="/" class="title-route">
+            Hello
+          </router-link>
+        </span>
         <div class="router">
           <router-link class="link" to="/blog">
             <md-icon class="icon">menu</md-icon>
@@ -52,6 +56,12 @@
         height 24px
         font-size 24px
         color black
+        .title-route
+          text-decoration none
+          &:active
+            color black
+          &:visited
+            color black
       .router
         display inline-block
         vertical-align top
