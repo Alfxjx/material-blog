@@ -30,13 +30,13 @@
 <script type="text/ecmascript-6">
   export default {
     name: "articlecard",
-    props: ['img', 'title', 'desc', 'category', 'tag', 'viewcount', '_id'],
+    props: ['img', 'title', 'desc', 'category', 'tag', 'viewCount', '_id'],
     data() {
       return {}
     },
     computed: {
       count() {
-        return this.viewcount > 0 ? this.viewcount : 0
+        return this.viewCount > 0 ? this.viewCount : 0
       }
     },
     methods: {

@@ -11,18 +11,23 @@ done:
   19-2-24:  mock数据（client/data.json）
   
   19-2-25: 完成api获取
+  
+  19-2-27: vuex配置&排版
+  
+  19-2-28: router & debug
+  
+  19-3-1: router to page
 ]
 doing:
 [
-  列表页卡片样式
-    
-  配置Vuex
+  tab监听样式，app.vue
   
-  文章详情的路由  
+  背景图片显示不全
 ]
 todolist:
 [
-  
+  login.vue
+  toc
 ]
 ```
 

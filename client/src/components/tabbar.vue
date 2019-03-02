@@ -1,41 +1,42 @@
 <template>
   <div>
-    <div class="toolbar-wrapper">
+    <div
+      class="toolbar-wrapper"
+      :style="{backgroundColor:tabColor}"
+    >
       <md-content class="md-elevation-6 toolbar">
         <span class="title">
-          <router-link to="/" class="title-route">
+          <router-link to="/" class="title-route" :style="{color: fontColor}">
             Hello
           </router-link>
         </span>
         <div class="router">
           <router-link class="link" to="/blog">
-            <md-icon class="icon">menu</md-icon>
+            <md-icon class="icon" :style="{color: fontColor}">menu</md-icon>
           </router-link>
           <router-link class="link" to="/archive">
-            <md-icon class="icon">apps</md-icon>
+            <md-icon class="icon" :style="{color: fontColor}">apps</md-icon>
           </router-link>
           <router-link class="link" to="/about">
-            <md-icon class="icon">account_box</md-icon>
+            <md-icon class="icon" :style="{color: fontColor}">account_box</md-icon>
           </router-link>
           <router-link class="link" to="/login">
-            <md-icon class="icon">group_add</md-icon>
+            <md-icon class="icon" :style="{color: fontColor}">group_add</md-icon>
           </router-link>
           <router-link class="link" to="/edit">
-            <md-icon class="icon">create</md-icon>
+            <md-icon class="icon" :style="{color: fontColor}">create</md-icon>
           </router-link>
         </div>
       </md-content>
     </div>
-    <div class="blur"></div>
+    <!--<div class="blur"></div>-->
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   export default {
     name: "tabbar",
-    data() {
-      return {}
-    }
+    props: ['tabColor', 'fontColor']
   }
 </script>
 
@@ -46,7 +47,7 @@
     z-index 100
     width 100%
     left 0
-    opacity 0.5
+    opacity 1
     .toolbar
       text-align left
       height 50px
@@ -57,24 +58,18 @@
         line-height 24px
         height 24px
         font-size 24px
-        color black
         .title-route
           text-decoration none
-          &:active
-            color black
-          &:visited
-            color black
       .router
         display inline-block
         vertical-align top
         .link
           margin-right 5px
-          .icon
-            color black
+
   .blur
     position fixed
     top 0
-    z-index 50
+    z-index 20
     width 100%
     height 56px
     margin-top -3px

@@ -11,7 +11,7 @@
          :desc="item.desc"
          :img="item.image"
          :author="item.author"
-         :viewcount="item.blogInfo.viewcount"
+         :viewCount="item.blogInfo.viewCount"
          :_id="item._id"
        ></articlecard>
        <p>总计{{ list.length }}篇文章</p>
