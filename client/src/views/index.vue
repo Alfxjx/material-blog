@@ -1,7 +1,7 @@
 <template>
  <div class="index">
    <div class="index md-layout md-gutter md-alignment-center-top">
-     <div class="md-layout-item md-large-size-66 md-medium-size-66 md-small-size-100">
+     <div class="main md-layout-item md-xlarge-size-80 md-large-size-75 md-medium-size-70 md-small-size-100">
        <articlecard
          v-for="(item, index) in list"
          :key="index"
@@ -16,7 +16,7 @@
        ></articlecard>
        <p>总计{{ list.length }}篇文章</p>
      </div>
-     <div class="md-layout-item md-large-size-20 md-medium-size-33 md-small-hide">
+     <div class="md-layout-item md-xlarge-size-18 md-large-size-16 md-medium-size-25 md-small-hide">
        <sidebar :category="category" :tag="tag"></sidebar>
      </div>
    </div>
@@ -67,4 +67,6 @@
   .index
     position relative
     width 100%
+    .main
+      margin-left 20px
 </style>

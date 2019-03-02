@@ -40,7 +40,6 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-
   .toolbar-wrapper
     position fixed
     top 0
