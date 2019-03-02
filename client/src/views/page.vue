@@ -63,6 +63,7 @@
         bkimg: {
           background: "url(" + require('../assets/post-banner.jpg') + ")",
           backgroundRepeat: "no-repeat",
+          backgroundSize: "100% 100%",
           width: "100%",
           height: "600px",
           zIndex: "51"
