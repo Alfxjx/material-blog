@@ -73,6 +73,8 @@
     created() {
       // this.content = getContent(this.id)
       // console.log(this.content)
+      this.$store.commit('font2White')
+      this.$store.commit('tab2Transparent')
       get('/blog/' + this.id)().then((res) => {
         this.content = res
       })
