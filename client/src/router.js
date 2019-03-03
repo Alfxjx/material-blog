@@ -14,11 +14,13 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: '/blog'
+      redirect: '/blog',
+      props: {tabColor: 'transparent', fontColor: 'black'}
     },
     {
       path: '/blog',
-      component: index
+      component: index,
+      props: {tabColor: 'transparent', fontColor: 'black'}
     },
     {
       path: '/blog/:id',

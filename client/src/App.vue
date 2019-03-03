@@ -34,23 +34,21 @@
     data() {
       return {
         act: false,
-        actSwitch: false,
-        tabColor: '',
-        fontColor: ''
+        actSwitch: false
       }
     },
     created() {
     },
     mounted() {
-      window.addEventListener('scroll', this.handleScroll)
+      // window.addEventListener('scroll', this.handleScroll)
     },
     methods: {
-      handleScroll() {
-        let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-        // console.log(scrollTop)
-        scrollTop < 400 ? this.tabColor = 'transparent' : this.tabColor = 'white'
-        scrollTop < 400 ? this.fontColor = 'white' : this.fontColor = 'black'
-      },
+      // handleScroll() {
+      //   let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+      //   // console.log(scrollTop)
+      //   scrollTop < 400 ? this.tabColor = 'transparent' : this.tabColor = 'white'
+      //   scrollTop < 400 ? this.fontColor = 'white' : this.fontColor = 'black'
+      // },
       testToast() {
         const that = this
         console.log('** testToast exec')

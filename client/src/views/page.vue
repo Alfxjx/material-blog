@@ -80,11 +80,30 @@
     },
     mounted() {
       highlightCode()
+      window.addEventListener('scroll', this.handleScroll)
     },
     updated() {
       highlightCode()
       const anchorList = document.getElementsByClassName('.toc-anchor')
       console.log(anchorList.length)
+    },
+    destroyed() {
+      window.removeEventListener('scroll', this.handleScroll)
+      this.$store.commit('tab2White')
+      this.$store.commit('font2Black')
+    },
+    methods: {
+      handleScroll() {
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+        // console.log(scrollTop)
+        if (scrollTop < 400) {
+          this.$store.commit('tab2Transparent')
+          this.$store.commit('font2White')
+        } else {
+          this.$store.commit('tab2White')
+          this.$store.commit('font2Black')
+        }
+      }
     },
     components: {
       VueMarkdown, tag, top

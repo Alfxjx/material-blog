@@ -1,9 +1,6 @@
 <template>
   <div>
-    <div
-      class="toolbar-wrapper"
-      :style="{backgroundColor:tabColor}"
-    >
+    <div class="toolbar-wrapper" :style="{backgroundColor:tabColor}">
       <md-content class="md-elevation-6 toolbar">
         <span class="title">
           <router-link to="/" class="title-route" :style="{color: fontColor}">
@@ -36,7 +33,14 @@
 <script type="text/ecmascript-6">
   export default {
     name: "tabbar",
-    props: ['tabColor', 'fontColor']
+    computed: {
+      fontColor() {
+        return this.$store.state.fontColor
+      },
+      tabColor() {
+        return this.$store.state.tabColor
+      }
+    }
   }
 </script>
 

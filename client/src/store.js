@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { getCategory, getList, getTag } from './api'
+import {getCategory, getList, getTag} from './api'
 
 Vue.use(Vuex)
 
@@ -10,6 +10,8 @@ export default new Vuex.Store(
       blogList: [],
       categoryList: [],
       tagList: [],
+      tabColor: 'white',
+      fontColor: 'black',
 
       /**
        * toast相关
@@ -30,48 +32,72 @@ export default new Vuex.Store(
       avatar: ''
     },
     mutations: {
-      getBloglist (state, list) {
+      getBloglist(state, list) {
         state.blogList = list
       },
-      getCategoryList (state, list) {
+      getCategoryList(state, list) {
         state.categoryList = list
       },
-      getTagList (state, list) {
+      getTagList(state, list) {
         state.tagList = list
       },
-      changeToaste (state, payload) {
+      tab2White(state) {
+        state.tabColor = 'white'
+      },
+      tab2Transparent(state) {
+        state.tabColor = 'transparent'
+      },
+      font2White(state) {
+        state.fontColor = 'white'
+      },
+      font2Black(state) {
+        state.fontColor = 'black'
+      },
+      changeToaste(state, payload) {
         // 下面这种方法替换了state引用，导致state断了， 不能及时反映数据改变
         // state = { ...state, ...payload }
         // 要用这种
         Object.assign(state, payload)
       },
-      userInfo (state, payload) {
+      userInfo(state, payload) {
         Object.assign(state, payload)
       }
     },
     actions: {
-      async getBlogList ({ commit }) {
+      async getBlogList({commit}) {
         const list = await getList()
         commit('getBloglist', list)
       },
-      async getCategoryList ({ commit }) {
+      async getCategoryList({commit}) {
         const list = await getCategory()
         commit('getCategoryList', list)
       },
-      async getTagList ({ commit }) {
+      async getTagList({commit}) {
         const list = await getTag()
         commit('getTagList', list)
       },
-      async changeToaste ({ commit, dispatch }, payload) {
+      tab2White({commit}) {
+        commit('tab2White')
+      },
+      tab2Transparent({commit}) {
+        commit('tab2Transparent')
+      },
+      font2White({commit}) {
+        commit('font2White')
+      },
+      font2Black({commit}) {
+        commit('font2Black')
+      },
+      async changeToaste({commit, dispatch}, payload) {
         commit('changeToaste', payload)
         // 重置myAlertStatus
         if (payload.myAlertStatus) {
-          setTimeout(function() {
-            dispatch('changeToaste', { myAlertStatus: false })
+          setTimeout(function () {
+            dispatch('changeToaste', {myAlertStatus: false})
           }, 500)
         }
       },
-      userInfo({ commit }, payload) {
+      userInfo({commit}, payload) {
         commit('userInfo', payload)
       }
     }
