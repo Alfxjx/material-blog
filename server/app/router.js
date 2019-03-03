@@ -4,11 +4,13 @@ const validator = require('validator');
 const error = require('./errors/errors');
 const _ = require('lodash');
 const { URL } = require('url');
+
 /**
  * @param {Egg.Application} app - egg application
  */
 module.exports = app => {
   const { router, controller } = app;
+  const _loginCheck = app.middleware.loginCheck();
   console.log(app.config.env);
   router.get('/', controller.home.index);
   /**
@@ -27,7 +29,7 @@ module.exports = app => {
    *
    * @apiUse error
    */
-  router.post('/blog', controller.blog.addBlog);
+  router.post('/blog', _loginCheck, controller.blog.addBlog);
   /**
    * @api {get} /blog blog-博客列表
    * @apiName getBlogList
@@ -113,7 +115,7 @@ module.exports = app => {
    *
    * @apiUse error
    */
-  router.put('/blog/:id', controller.blog.updateBlog);
+  router.put('/blog/:id', _loginCheck, controller.blog.updateBlog);
   /**
    * @api {get} /blog-category blog-博客分类
    * @apiName blog-category
@@ -166,6 +168,19 @@ module.exports = app => {
    * @apiUse error
    */
   router.get('/blog-tags', controller.blog.getTags);
+  /**
+   * @api {put} /blog/like/:id blog-喜欢博客
+   * @apiName likeBlog
+   * @apiGroup Blog
+   *
+   * @apiSuccessExample Success-Response:
+   *     HTTP/1.1 200 OK
+   *     {
+   *       'statusCode': 1,
+   *       'msg': '喜欢成功'
+   *
+   * @apiUse error
+   */
   router.put('/blog/like/:id', controller.blog.likeBlog);
   router.get('/form', controller.image.form);
   // x-csrf-token 头
@@ -184,7 +199,7 @@ module.exports = app => {
    *      }
    * @apiUse error
    */
-  router.post('/upload-image', controller.image.upload);
+  router.post('/upload-image', _loginCheck, controller.image.upload);
 
   const handle = (strategy, cookieName, isSuccess) => ctx => {
     app.logger.info('redirect to authCallback');
@@ -354,4 +369,49 @@ module.exports = app => {
     * @apiParam {Number} [offset] 分页 offset=20 size=10 就是第三页.
     * @apiParam {Number} [size] 每一页多少文章.
     */
+
+  /**
+   * @api {get} /comment/:id comment-获取博客评论
+   * @apiName getComments
+   * @apiGroup Comment
+   * @apiDescription 注意.
+   * :id是博客的id
+   * @apiParam {String} id 博客的id.
+   * @apiSuccessExample Success-Response:
+   *     HTTP/1.1 200 OK
+   *     {
+   *       'statusCode': 1,
+   *       'msg': '获取评论成功'
+   *       'data': [
+   *            {
+   *              '_id': '评论id',
+   *              'userId': '发评论的人的id',
+   *              'avatar': '发评论的人的头像',
+   *              'likes': '这个评论的like数',
+   *              'content': '评论',
+   *              'children': '子评论，数组， 结构相同',
+   *            }
+   *            {...},
+   *          ]
+   *      }
+   * @apiUse error
+   */
+  router.get('/comment/:id', app.controller.comment.getComments);
+  /**
+   * @api {post} /comment comment-发评论
+   * @apiName postComment
+   * @apiGroup Comment
+   * @apiDescription 注意.
+   * @apiParam {String} blogId 博客的id.
+   * @apiParam {String} parentId 如果是子评论，这里传父评论的id，否则传空字符串.
+   * @apiParam {String} content 评论内容.
+   * @apiSuccessExample Success-Response:
+   *     HTTP/1.1 200 OK
+   *     {
+   *       'statusCode': 1,
+   *       'msg': '添加评论成功'
+   *      }
+   * @apiUse error
+   */
+  router.post('/comment', _loginCheck, app.controller.comment.postComment);
 };

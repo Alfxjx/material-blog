@@ -93,4 +93,19 @@ exports.getRealIp = function(x_forwarded_for) {
     return (_.last(x_forwarded_for.split(','))).trim();
   }
 };
-
+/**
+ * htmlencode
+ * @param {String} str 字符串
+ * @return {String} 处理后的字符串
+ */
+exports.htmlEncodeByRegExp = function(str) {
+  let s = '';
+  if (str.length === 0) return '';
+  s = str.replace(/&/g, '&amp;');
+  s = s.replace(/</g, '&lt;');
+  s = s.replace(/>/g, '&gt;');
+  s = s.replace(/ /g, '&nbsp;');
+  s = s.replace(/\'/g, '&#39;');
+  s = s.replace(/\'/g, '&quot;');
+  return s;
+};

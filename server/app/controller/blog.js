@@ -30,7 +30,7 @@ class BlogController extends Controller {
       { property: 'category', validateMethodes: [ _.isString ] },
       { property: 'tag', validateMethodes: [ _.isArray ] },
       { property: 'desc', validateMethodes: [ v => !_.isEmpty(v) ] },
-      { property: 'image', validateMethodes: [ validator.isURL ] },
+      { property: 'image', validateMethodes: [ v => !_.isEmpty(v) && validator.isURL(v) ] },
       { property: 'author', validateMethodes: [ v => !_.isEmpty(v) ] },
       { property: 'title', validateMethodes: [ v => !_.isEmpty(v) ] },
       { property: 'content', validateMethodes: [ v => !_.isEmpty(v) ] },
@@ -110,6 +110,7 @@ class BlogController extends Controller {
     // 没有就增加浏览量
     if (_.isNil(count)) {
       row.blogInfo.viewCount += 1;
+      row.markModified('blogInfo.viewCount');
       await Promise.all(
         [
           ctx.model.Count.create({
@@ -225,6 +226,7 @@ class BlogController extends Controller {
         await ctx.user.save();
       }
       row.blogInfo.likes += 1;
+      row.markModified('blogInfo.likes');
       await row.save();
       ctx.body = {
         statusCode: error.STATUS_CODE.SUC,

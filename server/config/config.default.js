@@ -43,6 +43,12 @@ module.exports = appInfo => {
     },
     domainWhiteList: [ '.github.com', '.alfxjx.club' ],
   };
+  config.session = {
+    key: 'EGG_SESS',
+    maxAge: 24 * 3600 * 1000 * 7, // 7 天
+    httpOnly: true,
+    encrypt: true,
+  };
   config.cors = {
     origin: '*',
     allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH',
