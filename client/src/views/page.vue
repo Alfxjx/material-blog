@@ -1,6 +1,6 @@
 <template>
   <div class="page">
-    <div class="head" :style="bkimg">
+    <div class="head filter" :style="bkimg">
       <div class="info">
         <h2 class="title">{{ content.title }}</h2>
         <p class="author">{{ content.author }}</p>
@@ -61,14 +61,24 @@
       return {
         content: {},
         bkimg: {
-          background: "url(" + require('../assets/post-banner.jpg') + ")",
-          backgroundRepeat: "no-repeat",
+          background: "url(" + require('../assets/my-about-banner-1.jpg') + ")",
           backgroundSize: "100% 100%",
+          backgroundRepeat: "no-repeat",
           width: "100%",
-          height: "600px",
+          height: "500px",
           zIndex: "51"
         }
       }
+    },
+    computed: {
+      // 会报undefined的错误
+      // timeFormat() {
+      //   if(this.content.updatedAt) {
+      //     return this.content.updatedAt.slice(0, 10)
+      //   } else {
+      //     return this.content.createdAt.slice(0, 10)
+      //   }
+      // }
     },
     created() {
       // this.content = getContent(this.id)
@@ -78,7 +88,7 @@
       get('/blog/' + this.id)().then((res) => {
         this.content = res
       })
-      console.log(this.content)
+      // console.log(this.content)
     },
     mounted() {
       highlightCode()
@@ -86,8 +96,6 @@
     },
     updated() {
       highlightCode()
-      const anchorList = document.getElementsByClassName('.toc-anchor')
-      console.log(anchorList.length)
     },
     destroyed() {
       window.removeEventListener('scroll', this.handleScroll)
@@ -124,15 +132,16 @@
       margin-top -60px
       .info
         margin-top 60px
-        color red
+        color white
+        font-family Garamond
         .title
-          font-family Roboto
+          font-size 60px
         .author
-          font-family Roboto
+          font-size 24px
         .category
-          font-family Roboto
+          font-size 24px
         .time
-          font-family Roboto
+          font-size 24px
     .content-view
       width 100%
       .text

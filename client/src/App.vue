@@ -1,10 +1,7 @@
 <template>
   <div id="app" :class="myAlertStatus">
     <div class="content">
-      <tabbar
-        :tabColor="tabColor"
-        :fontColor="fontColor"
-      ></tabbar>
+      <tabbar></tabbar>
       <span class="blank">1111</span>
       <router-view></router-view>
     </div>
@@ -67,7 +64,7 @@
     },
     computed: {
       myAlertStatus() {
-        const that = this;
+        const that = this
         if (!that.actSwitch) {
           that.act = that.$store.state.myAlertStatus
         }
