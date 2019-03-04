@@ -2,7 +2,7 @@
   <div class="wrapper">
     <div class="archive-list md-elevation-2">
       <ul>
-        <li class="list-item" v-for="(blog, index) in blogList" :key="index" @click="goPage">
+        <li class="list-item" v-for="(blog, index) in blogList" :key="index" @click="goPage(blog._id)">
           <p class="time">{{blog.createdAt}}</p>
           <p class="title">{{blog.title}}</p>
         </li>
@@ -23,8 +23,8 @@
       }
     },
     methods: {
-      goPage() {
-        this.$router.push('/blog/'+ blog._id)
+      goPage(_id) {
+        this.$router.push('/blog/'+ _id)
       }
     }
   }
