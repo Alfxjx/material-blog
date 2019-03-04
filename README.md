@@ -7,26 +7,21 @@
 done: 
 [
   19-2-23: 新建项目
-
   19-2-24:  mock数据（client/data.json）
-  
   19-2-25: 完成api获取
-  
   19-2-27: vuex配置&排版
-  
   19-2-28: router & debug
-  
   19-3-1: router to page
+  19-3-2：背景图片显示
+  19-3-3: 管理tab的状态，修复完成。tab监听样式
 ]
 doing:
 [
-  tab监听样式，app.vue
   
-  背景图片显示不全
 ]
 todolist:
 [
-  login.vue
+  edit界面
   toc
 ]
 ```

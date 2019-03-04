@@ -8,6 +8,7 @@ module.exports = app => {
     // 分有 home 首页  blogview 博客 backup1 备用 bloglike
     type: { type: String, required: true },
     blogId: { type: String },
+    commentId: { type: String },
     createdAt: { type: Date },
   });
   CountSchema.pre('save', function(next) {

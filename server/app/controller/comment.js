@@ -3,6 +3,8 @@
 const Controller = require('egg').Controller;
 const _ = require('lodash');
 const error = require('../errors/errors');
+const { COUNT_TYPE } = require('../lib/constant');
+
 class CommentController extends Controller {
   // 获取评论
   async getComments() {
@@ -68,6 +70,43 @@ class CommentController extends Controller {
     ctx.body = {
       statusCode: error.STATUS_CODE.SUC,
       msg: '添加评论成功',
+    };
+  }
+  // 点赞 评论
+  async likeComment() {
+    const { ctx } = this;
+    const realIp = ctx.helper.getRealIp(ctx.req.headers['x-forwarded-for']) || ctx.ip;
+    ctx.helper.validate([
+      { property: 'id', validateMethodes: [ _.isString ] },
+    ], ctx.params);
+    const row = await ctx.model.Comment.findOne({
+      _id: ctx.params.id,
+    });
+    if (_.isNil(row)) {
+      throw error.NotFoundError('没有此评论');
+    }
+    const count = await ctx.model.Count.findOne({
+      ip: realIp,
+      type: COUNT_TYPE.COMMENT_LIKE,
+      commentId: ctx.params.id,
+    });
+    // 没有就增加
+    if (_.isNil(count)) {
+      row.likes += 1;
+      await Promise.all(
+        [
+          ctx.model.Count.create({
+            ip: realIp,
+            type: COUNT_TYPE.COMMENT_LIKE,
+            commentId: ctx.params.id,
+          }),
+          row.save(),
+        ]
+      );
+    }
+    ctx.body = {
+      statusCode: error.STATUS_CODE.SUC,
+      msg: '喜欢评论成功',
     };
   }
 }

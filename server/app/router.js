@@ -414,4 +414,20 @@ module.exports = app => {
    * @apiUse error
    */
   router.post('/comment', _loginCheck, app.controller.comment.postComment);
+  /**
+   * @api {put} /comment/like/:id comment-点赞评论
+   * @apiName likeComment
+   * @apiGroup Comment
+   * @apiDescription 注意.
+   * 使用xhr
+   * @apiParam {String} id 评论id.
+   * @apiSuccessExample Success-Response:
+   *     HTTP/1.1 200 OK
+   *     {
+   *       'statusCode': 1,
+   *       'msg': '点赞成功'
+   *      }
+   * @apiUse error
+   */
+  router.get('/comment/like', _loginCheck, app.controller.comment.likeComment);
 };
