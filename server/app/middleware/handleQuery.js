@@ -26,6 +26,14 @@ module.exports = () => {
       ctx.logger.info(ctx.request.body);
       ctx.request.queryMy = _p;
     }
+    ctx.set('Access-Control-Allow-Origin', ctx.headers.origin || '*');
+    ctx.set('Access-Control-Allow-Credentials', true);
+    ctx.set('Access-Control-Allow-Methods', 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS');
+    ctx.set('Access-Control-Allow-Headers',
+      'Origin, X-Requested-With, Content-Type, Accept, Connection, Content-Length, x-csrf-token');
+    if (ctx.request.method === 'OPTIONS') {
+      ctx.status = 200;
+    }
     await next();
   };
 };

@@ -74,9 +74,9 @@ const axiosBaseConfig = {
     if (token) {
       headers['x-csrf-token'] = token
     }
-    // 请求对象转换成json字符串
+    // 请求对象转换成appliction/x-www-form-urlencoded格式
     if (typeof data === 'object') {
-      headers['Content-Type'] = 'appliction/json'
+      // headers['Content-Type'] = 'appliction/x-www-form-urlencoded'
       return qs.stringify(data)
     }
     return data
@@ -101,23 +101,10 @@ if (document.cookie.length > 0) {
   }
   return ""
 }
-// instance.interceptors.request.use(function (config) {
-//   if (localStorage.getItem('_csrfToken')) {
-//     try {
-//       let token = localStorage.getItem('_csrfToken')
-//       config.headers['x-csrf-token'] = token
-//     } catch (e) {
-//       console.error(e)
-//     }
-//   }
-//   return config
-// }, function (error) {
-//   // Do something with request error
-//   return Promise.reject(error)
-// })
 
 export async function generalRequest(url, method, params) {
   const res = await instance[method](baseUrl + url, params)
+  console.log(res)
   const {statusCode} = res.data
   if (statusCode !== 1) {
     return false

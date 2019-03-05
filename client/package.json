@@ -12,6 +12,7 @@
     "babel-runtime": "^6.26.0",
     "highlight.js": "^9.15.6",
     "mavon-editor": "^2.6.17",
+    "qs": "^6.6.0",
     "vue": "^2.6.6",
     "vue-markdown": "^2.2.4",
     "vue-material": "^1.0.0-beta-10.2",

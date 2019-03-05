@@ -1,5 +1,5 @@
 <template>
-  <div class="container" :style="{height: myLayout.height, background: backgroundSet }">
+  <div class="container" :style="{height: myLayout.height, background: backgroundSet}">
     <div class="md-layout md-alignment-center-center" name="login">
       <div class="md-layout-item md-size-33 md-medium-size-40 md-small-size-50 md-xsmall-size-70 mx-auto text-center">
         <md-card class="login-card">
@@ -48,7 +48,7 @@
       }
     },
     created() {
-      this.myLayout.height = (document.body.clientHeight - 300) + 'px'
+      this.myLayout.height = (document.body.clientHeight > 800 ? 800 : document.body.clientHeight)  + 'px'
     },
     methods: {
       closeError(index) {
@@ -115,10 +115,12 @@
         const that = this
         if (res) {
           this.$store.dispatch('changeToaste', {myAlertStatus: true, myAlertContent: '登录成功'})
+          this.$store.dispatch('userInfo', {username: res.data.username, avatar: res.data.avatar, _id: res.data._id})
           localStorage.setItem('username', res.data.username)
           localStorage.setItem('avatar', res.data.avatar)
+          localStorage.setItem('_id', res.data._id)
           setTimeout(() => {
-            that.$route.push({ path: "/" })
+            that.$router.push({ path: "/" })
           }, 2000)
         } else {
           this.$store.dispatch('changeToaste', {myAlertStatus: true, myAlertContent: '用户名或密码错误'})
