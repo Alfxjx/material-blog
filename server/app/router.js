@@ -270,7 +270,7 @@ module.exports = app => {
    * @apiUse error
    */
   const _login = app.middleware.login();
-  router.post('/login/local', _login, app.passport.authenticate('local', {
+  router.post('/auth/local', _login, app.passport.authenticate('local', {
     successRedirect: app.config.env === 'prod' ? 'http://www.alfxjx.club/api-blog/authCallback' : '/authCallback',
     failureRedirect: app.config.env === 'prod' ? 'http://www.alfxjx.club/api-blog/authCallbackFail' : '/authCallbackFail',
   }));
