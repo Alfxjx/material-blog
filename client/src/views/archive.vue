@@ -2,9 +2,9 @@
   <div class="wrapper">
     <div class="archive-list md-elevation-2">
       <ul>
-        <li class="list-item" v-for="(blog, index) in blogList" :key="index" @click="goPage(blog._id)">
+        <li class="list-item" v-for="(blog, index) in blogList" :key="index">
           <p class="time">{{blog.createdAt}}</p>
-          <p class="title">{{blog.title}}</p>
+          <p class="title" @click="goPage(blog._id)">{{blog.title}}</p>
         </li>
       </ul>
     </div>
@@ -14,7 +14,7 @@
 <script type="text/ecmascript-6">
   export default {
     name: "archive",
-    created(){
+    created() {
       this.$store.dispatch('getBlogList')
     },
     computed: {
@@ -24,7 +24,7 @@
     },
     methods: {
       goPage(_id) {
-        this.$router.push('/blog/'+ _id)
+        this.$router.push('/blog/' + _id)
       }
     }
   }

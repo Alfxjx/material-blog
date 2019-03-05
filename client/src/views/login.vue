@@ -22,6 +22,7 @@
           </md-card-content>
           <md-card-actions>
             <md-button class="md-raised md-primary" v-on:click="localLogin">登录</md-button>
+            <md-button class="md-raised md-primary" @click="goRegister">注册</md-button>
           </md-card-actions>
         </md-card>
       </div>
@@ -51,6 +52,9 @@
       this.myLayout.height = (document.body.clientHeight > 800 ? 800 : document.body.clientHeight)  + 'px'
     },
     methods: {
+      goRegister(){
+        this.$router.push('/reg')
+      },
       closeError(index) {
         if (index === 0) {
           this.itemList[index].name = "username..."

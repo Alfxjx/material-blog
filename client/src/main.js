@@ -6,7 +6,10 @@ import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.min.css'
+import axios from 'axios'
 
+axios.defaults.withCredentials = true
+Vue.prototype.$axios = axios
 Vue.use(VueMaterial)
 Vue.use(mavonEditor)
 Vue.config.productionTip = false
