@@ -70,7 +70,7 @@ const axiosBaseConfig = {
 
   transformRequest: [(data, headers) => {
     // 加入token？
-    const token = sessionStorage.getItem('_csrfToken')
+    const token = getCookie("csrfToken")
     if (token) {
       headers['x-csrf-token'] = token
     }
@@ -89,31 +89,32 @@ const axiosBaseConfig = {
 }
 const instance = axios.create(axiosBaseConfig)
 // 请求拦截器
-instance.interceptors.request.use(function (config) {
-  if (localStorage.getItem('_csrfToken')) {
-    try {
-      let token = localStorage.getItem('_csrfToken')
-      config.headers['x-csrf-token'] = token
-    } catch (e) {
-      console.error(e)
+function getCookie (cName) {
+if (document.cookie.length > 0) {
+  let cStart = document.cookie.indexOf(cName + "=")
+  if (cStart !== -1) {
+    cStart = cStart + cName.length + 1
+    let cEnd = document.cookie.indexOf(";", cStart)
+    if (cEnd === -1) cEnd = document.cookie.length
+      return unescape(document.cookie.substring(cStart, cEnd))
     }
   }
-  return config
-}, function (error) {
-  // Do something with request error
-  return Promise.reject(error)
-})
-// Add a response interceptor
-axios.interceptors.response.use(function (response) {
-  if (response.headers._csrfToken) {
-    console.log("_csrfToken:" + response.headers._csrfToken)
-    localStorage.setItem('_csrfToken', response.headers._csrfToken)
-  }
-  return response
-}, function (error) {
-  // Do something with response error
-  return Promise.reject(error)
-})
+  return ""
+}
+// instance.interceptors.request.use(function (config) {
+//   if (localStorage.getItem('_csrfToken')) {
+//     try {
+//       let token = localStorage.getItem('_csrfToken')
+//       config.headers['x-csrf-token'] = token
+//     } catch (e) {
+//       console.error(e)
+//     }
+//   }
+//   return config
+// }, function (error) {
+//   // Do something with request error
+//   return Promise.reject(error)
+// })
 
 export async function generalRequest(url, method, params) {
   const res = await instance[method](baseUrl + url, params)

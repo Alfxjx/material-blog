@@ -109,8 +109,8 @@
         成功就跳回到刚才的页面
         */
         const res = await generalRequest('/auth/local', 'post', {
-          username: this.this.itemList[0].value,
-          password: this.this.itemList[1].value
+          username: this.itemList[0].value,
+          password: this.itemList[1].value
         })
         const that = this
         if (res) {
