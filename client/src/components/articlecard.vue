@@ -5,7 +5,7 @@
         <md-ripple>
           <md-card-header>
             <md-card-media>
-              <img :src="img" alt="">
+              <img :src="img" height="" alt="">
             </md-card-media>
             <md-card-header-text>
               <div class="md-title">{{ title }}</div>
@@ -51,7 +51,9 @@
 <style lang="stylus" rel="stylesheet/stylus">
 
   .card-wrapper
-    margin 20px 20px 50px 20px
+    margin-bottom 20px
+    padding-left 5px
+    padding-right 5px
     .actions
       position relative
       .count
@@ -60,5 +62,11 @@
       .tagList
         position absolute
         bottom 3px
-        left 10px
+        left 0
+        padding-left 10px
+        .tag
+          display inline-block
+          list-style none
+          margin 5px 3px 5px 3px
+
 </style>

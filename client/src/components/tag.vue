@@ -17,9 +17,8 @@
 
   .tag
     .tag-list
+      list-style none
       .tag-item
-        border 1px solid grey
-        border-radius 3px
         line-height 16px
         font-size 16px
         font-weight 700

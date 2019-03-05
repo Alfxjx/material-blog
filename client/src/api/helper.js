@@ -38,6 +38,29 @@ export function writeBlog(url, params) {
   })
 }
 
+export function register(username, password) {
+  return axios({
+    method: 'post',
+    datatType: 'jsonp',
+    url: baseUrl + '/registry/local',
+    headers: {
+      'x-csrf-token': 'f3WeUA9nX2Ep72Qeab91C9XR'
+    },
+    data: {
+      username: username,
+      password: password
+    },
+    withCredentials: true
+  }).then((res) => {
+    const {statusCode, msg, data} = res.data
+    if (statusCode === 1) {
+      console.log(data)
+    }
+  }).catch((e) => {
+    console.log('error')
+  })
+}
+
 // export function getContent(id) {
 //   axios.get(baseUrl + '/blog/' + id).then((res) => {
 //     const { statusCode, msg, data } = res.data

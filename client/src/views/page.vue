@@ -8,27 +8,15 @@
         <p class="time">{{ content.createdAt }}</p>
       </div>
     </div>
-    <div class="content-view md-layout md-gutter md-alignment-center-top">
-      <div class="md-layout-item md-xlarge-size-3 md-large-size-3 md-medium-size-5 md-small-size-7"></div>
-      <div class="text md-layout-item md-xlarge-size-80 md-large-size-80 md-medium-size-66 md-small-size-90">
-        <div class="content-container md-elevation-5">
-          <div class="content-wrapper">
-            <vue-markdown
-              class="content"
-              :source="content.content"
-              :html="false"
-              :toc="true"
-            ></vue-markdown>
-            <tag :tag="content.tag"></tag>
-          </div>
-        </div>
-      </div>
-      <div class="toc md-layout-item md-xlarge-size-15 md-large-size-15 md-medium-size-20 md-small-hide">
-        <div class="md-elevation-2">
-          <ul>
-            <li>123</li>
-          </ul>
-        </div>
+    <div class="content-view">
+      <div class="content-wrapper  md-elevation-5">
+        <vue-markdown
+          class="content"
+          :source="content.content"
+          :html="false"
+          :toc="true"
+        ></vue-markdown>
+        <tag :tag="content.tag"></tag>
       </div>
     </div>
     <top class="top"></top>
@@ -143,16 +131,18 @@
         .time
           font-size 24px
     .content-view
-      width 100%
-      .text
-        .content-container
-          .content-wrapper
-            padding 10px 20px 10px 20px
-            .content
-              line-height 28px
-              font-family Roboto
-              font-size 18px
-              text-align left
+      display flex
+      justify-content center
+      .content-wrapper
+        width 100%
+        max-width 960px
+        margin-top 20px
+        padding 10px 20px 10px 20px
+        .content
+          line-height 28px
+          font-family Roboto
+          font-size 18px
+          text-align left
     .top
       position fixed
       right 5%
