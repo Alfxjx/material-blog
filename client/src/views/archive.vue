@@ -3,7 +3,7 @@
     <div class="archive-list md-elevation-2">
       <ul>
         <li class="list-item" v-for="(blog, index) in blogList" :key="index">
-          <p class="time">{{blog.createdAt}}</p>
+          <p class="time">{{blog.createdAt|format}}</p>
           <p class="title" @click="goPage(blog._id)">{{blog.title}}</p>
         </li>
       </ul>
@@ -12,6 +12,8 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import {formatTime} from '../common/format'
+
   export default {
     name: "archive",
     created() {
@@ -26,6 +28,11 @@
       goPage(_id) {
         this.$router.push('/blog/' + _id)
       }
+    },
+    filters: {
+      format(time) {
+        return formatTime(time)
+      }
     }
   }
 </script>
@@ -36,22 +43,15 @@
     display flex
     justify-content center
     .archive-list
-      width 900px
+      width 80%
       .list-item
-        display block
+        display flex
+        flex-direction row
+        justify-content flex-start
         padding 10px 0 0 10px
         height 50px
         .time
-          display inline-block
-          margin 0 0 0 0
-          width 30%
-          font-size 20px
-          line-height 30px
+          margin-right 30px
         .title
-          display inline-block
-          margin 10px 0 0
-          width 70%
-          font-size 26px
-          line-height 30px
-          vertical-align center
+          text-decoration underline
 </style>

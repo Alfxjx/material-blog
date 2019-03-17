@@ -62,7 +62,8 @@
 <style lang="stylus" rel="stylesheet/stylus">
 
   .top-wrapper
-    position absolute
-    bottom 0px
-    right 35px
+    position fixed
+    bottom 20px
+    right 25px
+    z-index 20
 </style>

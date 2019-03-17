@@ -6,7 +6,7 @@ import about from './views/about'
 import login from './views/login'
 import page from './views/page'
 import edit from './views/edit'
-import register from  './views/register'
+import register from './views/register'
 
 Vue.use(Router)
 

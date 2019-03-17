@@ -5,7 +5,7 @@
         <h2 class="title">{{ content.title }}</h2>
         <p class="author">{{ content.author }}</p>
         <p class="category">{{ content.category }}</p>
-        <p class="time">{{ content.createdAt }}</p>
+        <p class="time">{{ content.createdAt | format }}</p>
       </div>
     </div>
     <div class="content-view">
@@ -31,6 +31,7 @@
   import top from '../components/top'
   import hljs from 'highlight.js'
   import 'highlight.js/styles/github.css'
+  import {formatTime} from '../common/format'
 
   // 写在这边，不然在hook就找不到
   // https://segmentfault.com/a/1190000013960009
@@ -52,21 +53,10 @@
           background: "url(" + require('../assets/my-about-banner-1.jpg') + ")",
           backgroundSize: "100% 100%",
           backgroundRepeat: "no-repeat",
-          width: "100%",
           height: "500px",
           zIndex: "51"
         }
       }
-    },
-    computed: {
-      // 会报undefined的错误
-      // timeFormat() {
-      //   if(this.content.updatedAt) {
-      //     return this.content.updatedAt.slice(0, 10)
-      //   } else {
-      //     return this.content.createdAt.slice(0, 10)
-      //   }
-      // }
     },
     created() {
       // this.content = getContent(this.id)
@@ -103,6 +93,11 @@
         }
       }
     },
+    filters: {
+      format(time) {
+        return formatTime(time)
+      }
+    },
     components: {
       VueMarkdown, tag, top
     }
@@ -116,7 +111,7 @@
     .head
       display flex
       justify-content center
-      align-items flex-start
+      align-items center
       margin-top -60px
       .info
         margin-top 60px
