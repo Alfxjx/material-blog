@@ -61,18 +61,18 @@ export function register(username, password) {
   })
 }
 
-// export function getContent(id) {
-//   axios.get(baseUrl + '/blog/' + id).then((res) => {
-//     const { statusCode, msg, data } = res.data
-//     if (statusCode === 1) {
-//       console.log(msg)
-//       console.log(data)
-//       return data
-//     }
-//   }).catch((e) => {
-//     console.log('error')
-//   })
-// }
+export async function checkUser(name) {
+  try {
+    let res = await axios.get(baseUrl + '/user/check-username?username=' + name)
+    res = res.data
+    if (res.statusCode === 1) {
+      console.log(res.statusCode)
+      return res.statusCode
+    }
+  } catch (e) {
+    console.log(e)
+  }
+}
 
 // axios配置
 const axiosBaseConfig = {

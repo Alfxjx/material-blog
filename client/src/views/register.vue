@@ -13,7 +13,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {register} from '../api/helper'
+  import {checkUser, register} from '../api/helper'
 
   export default {
     name: "register",
@@ -24,9 +24,16 @@
       }
     },
     methods: {
-       async register() {
-         console.log('click')
-         const res = await register(this.username, this.password)
+      async register() {
+        const isExist = await checkUser(this.username)
+        // TODO undefined
+        console.log(isExist)
+        if (isExist===1) {
+          console.log('已经注册了')
+        } else {
+          const res = await register(this.username, this.password)
+          console.log('click')
+        }
       }
     }
   }
