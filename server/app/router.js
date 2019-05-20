@@ -17,7 +17,8 @@ module.exports = app => {
    * @api {post} /blog blog-写博客
    * @apiName postBlog
    * @apiGroup Blog
-   *
+   * @apiDescription
+   * * 测试
    * @apiUse blogPropertyR
    *
    * @apiSuccessExample Success-Response:

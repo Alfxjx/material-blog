@@ -66,9 +66,46 @@ class BlogController extends Controller {
         ]
       );
     }
-    const row = await ctx.model.Blog.find({
+    let row = await ctx.model.Blog.find({
       ..._res.where,
-    }, 'category tag desc image author createdAt title blogInfo').skip(_res.pagination.offset).limit(_res.pagination.size);
+    }, 'category tag desc image author createdAt title blogInfo')
+      .skip(_res.pagination.offset)
+      .limit(_res.pagination.size)
+      .lean(false);
+
+    row = await Promise.all(row.map(item => {
+      return ctx.model.Comment.count({
+        blogId: item._id,
+      }).then(_count => {
+        item.countOfComments._res = _count;
+        return item;
+      });
+    }));
+    ctx.body = {
+      statusCode: error.STATUS_CODE.SUC,
+      msg: '获取博客列表成功',
+      data: row,
+    };
+  }
+
+  async getBlogsSortBySomeThing() {
+    const { ctx } = this;
+    const _res = ctx.helper.handleQuery(ctx.request.queryMy);
+    let row = await ctx.model.Blog.find({
+      ..._res.where,
+    }, 'category tag desc image author createdAt title blogInfo')
+      .skip(_res.pagination.offset)
+      .limit(_res.pagination.size)
+      .sort(_res.sort)
+      .lean(false);
+    row = await Promise.all(row.map(item => {
+      return ctx.model.Comment.count({
+        blogId: item._id,
+      }).then(_count => {
+        item.countOfComments._res = _count;
+        return item;
+      });
+    }));
     ctx.body = {
       statusCode: error.STATUS_CODE.SUC,
       msg: '获取博客列表成功',

@@ -50,6 +50,7 @@ exports.handleQuery = function(queryDTO) {
   const sqlArgs = {
     pagination: {},
     where: {},
+    sort: {},
   };
   if (!queryDTO.offset) {
     queryDTO.offset = 0;
@@ -72,6 +73,16 @@ exports.handleQuery = function(queryDTO) {
   sqlArgs.pagination.offset = +queryDTO.offset;
   sqlArgs.pagination.size = +queryDTO.size;
 
+  if (queryDTO.sort && queryDTO.sortBy) {
+    exports.validate([
+      { property: 'sortBy', validateMethodes: [ v => {
+        return _.isNil(v) || (_.isArray(v) && (v[0] === 'desc' || v[0] === 'asc'));
+      } ] },
+    ], queryDTO);
+    queryDTO.sort.forEach((item, index) => {
+      sqlArgs.sort[item] = queryDTO.sortBy[index] || 'desc';
+    });
+  }
   return sqlArgs;
 };
 
