@@ -39,6 +39,8 @@ module.exports = app => {
    * @apiUse pagination
    * @apiParam {String} [category] 博客分类.
    * @apiParam {Array} [tag] 博客标签 字符串数组.
+   * @apiParam {Array} [offset] 偏移多少项  第二页(每页10项)就是 offset=1  size=10.
+   * @apiParam {Array} [size] 一页多少项.
    * @apiSuccessExample Success-Response:
    *     HTTP/1.1 200 OK
    *     {
@@ -57,6 +59,7 @@ module.exports = app => {
    *              'author': 'xjx',
    *              'title': 'test',
    *              'blogInfo': { viewCount：'浏览量'，likes: '喜欢数' },
+   *              'countOfComments': 12,                        // '评论数'
    *              'createdAt': '2019-02-24T04:16:03.781Z'
    *          },
    *          {...}
@@ -66,6 +69,44 @@ module.exports = app => {
    * @apiUse error
    */
   router.get('/blog', controller.blog.getBlogs);
+  /**
+   * @api {get} /blog-top blog-博客top列表
+   * @apiName getBlogListTop
+   * @apiGroup Blog
+   *
+   * @apiParam {Array} [size] 一页多少项， 这里top5就填5.
+   * @apiParam {Array} [sort] 排序的字段 如浏览量就是'blogInfo.viewCount'  赞数量'blogInfo.likes'
+   * @apiParam {Array} [sortBy] 正序排序还是倒叙 asc/desc
+   * @apiParamExample
+   *    /blog-top?sort[]=blogInfo.viewCount&sortBy=desc&size=5
+   * @apiSuccessExample Success-Response:
+   *     HTTP/1.1 200 OK
+   *     {
+   *       'statusCode': 1,
+   *       'msg': '获取博客列表成功'
+   *       'data': [
+   *          {
+   *              'tag': [
+   *                 'java',
+   *                 'test'
+   *               ],
+   *              '_id': '5c721a8325ec7509384d9deb',            // '博客id'
+   *              'category': 'java',
+   *              'desc': 'nothing',
+   *              'image': 'http://www.weidongwei.com/static/media/webPic.557c7012.jpg',
+   *              'author': 'xjx',
+   *              'title': 'test',
+   *              'blogInfo': { viewCount：'浏览量'，likes: '喜欢数' },
+   *              'countOfComments': 12,                        // '评论数'
+   *              'createdAt': '2019-02-24T04:16:03.781Z'
+   *          },
+   *          {...}
+   *        ]
+   *     }
+   *
+   * @apiUse error
+   */
+  router.get('/blog-top', controller.blog.getBlogsSortBySomeThing);
   /**
    * @api {get} /blog/:id blog-博客详情
    * @apiName getBlog
@@ -205,6 +246,7 @@ module.exports = app => {
   const handle = (strategy, cookieName, isSuccess) => ctx => {
     app.logger.info('redirect to authCallback');
     app.logger.info(strategy);
+    app.logger.info('handle user is:' + ctx.user);
     if (cookieName) {
       const surl = ctx.cookies.get(cookieName);
       if (_.isEmpty(surl) || !validator.isURL(surl)) {

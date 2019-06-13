@@ -13,13 +13,13 @@ module.exports = () => {
           _p[key] = _params[key][0];
         }
       }
-      const realIp = ctx.helper.getRealIp(ctx.req.headers['x-forwarded-for']) || ctx.ip;
+      // const realIp = ctx.helper.getRealIp(ctx.req.headers['x-forwarded-for']) || ctx.ip;
 
-      ctx.logger.info('*******realIp***********');
-      ctx.logger.info('realIp:' + realIp);
+      // ctx.logger.info('*******realIp***********');
+      // ctx.logger.info('realIp:' + realIp);
 
-      ctx.logger.info('*******queryMy***********');
-      ctx.logger.info(_p);
+      // ctx.logger.info('*******queryMy***********');
+      // ctx.logger.info(_p);
       ctx.logger.info('*******header***********');
       ctx.logger.info(ctx.headers);
       ctx.logger.info('*******body***********');

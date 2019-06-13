@@ -3,6 +3,7 @@
 const LocalStrategy = require('passport-local').Strategy;
 const GitHubStrategy = require('passport-github').Strategy;
 const _ = require('lodash');
+const error = require('./app/errors/errors');
 const { getPwd } = require('./app/extend/helper');
 module.exports = app => {
   // 挂载 strategy
@@ -14,9 +15,10 @@ module.exports = app => {
     if (_.isNil(user)) {
       app.passport.doVerify(req, null, done);
     } else {
-      console.log(req.method, req.url, user);
-      user.desc = '这个人很懒，什么都没有写~!';
-      await user.save();
+      app.logger.info(req.method + '--' + req.url);
+      app.logger.info('user is:' + JSON.stringify(user));
+      // user.desc = '这个人很懒，什么都没有写~!';
+      // await user.save();
       app.passport.doVerify(req, user, done);
     }
   }));
@@ -57,23 +59,25 @@ module.exports = app => {
 
   // 处理用户信息
   app.passport.verify(async (ctx, user) => {
-    console.log('verify');
-    console.log(user);
+    app.logger.info('verify');
+    app.logger.info(user && user.username);
     return user;
   });
   app.passport.serializeUser(async (ctx, user) => {
-    console.log('serializeUser');
-    console.log(user);
+    app.logger.info('serializeUser');
+    app.logger.info(user && user.username);
     return { _id: user._id, openId: user.openId };
   });
   app.passport.deserializeUser(async (ctx, user) => {
-    console.log('deserializeUser');
-    console.log(user);
+    app.logger.info('deserializeUser');
+    app.logger.info(JSON.stringify(user));
     const condition = {};
     if (user._id) {
       condition._id = user._id;
     } else if (user.openId) {
       condition.openId = user.openId;
+    } else {
+      throw error.NotLoginError('登录错误 user:' + JSON.stringify(user));
     }
     const _user = await app.model.User.findOne(condition);
     return _user;

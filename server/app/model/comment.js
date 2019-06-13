@@ -6,7 +6,7 @@ module.exports = app => {
 
   const CommentSchema = new Schema({
     userId: { type: Number, required: true },
-    blogId: { type: Number, required: true },
+    blogId: { type: String, required: true },
     parentId: { type: String, required: true, default: '' },
     likes: { type: Number, required: true, default: 0 },
     content: { type: String, required: true },

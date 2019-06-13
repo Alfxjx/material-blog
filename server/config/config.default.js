@@ -18,7 +18,7 @@ module.exports = appInfo => {
   config.keys = appInfo.name + '_0619xjx';
 
   // add your middleware config here
-  config.middleware = [ 'handleQuery', 'logg' ];
+  config.middleware = [ 'handleQuery' ];
   config.logg = {};
   config.handleQuery = {};
   // add your user config here
@@ -46,8 +46,8 @@ module.exports = appInfo => {
   config.session = {
     key: 'EGG_SESS',
     maxAge: 24 * 3600 * 1000 * 7, // 7 天
-    httpOnly: true,
-    encrypt: true,
+    httpOnly: false,
+    encrypt: false,
   };
   config.cors = {
     origin: '*',

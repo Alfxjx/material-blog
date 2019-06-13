@@ -49,8 +49,7 @@ class BlogController extends Controller {
   async getBlogs() {
     const { ctx } = this;
     const _res = ctx.helper.handleQuery(ctx.request.queryMy);
-    this.logger.info('--conditon--');
-    this.logger.info(_res);
+    // this.logger.info(_res);
     const realIp = ctx.helper.getRealIp(ctx.req.headers['x-forwarded-for']) || ctx.ip;
     const count = await ctx.model.Count.findOne({
       ip: realIp,
@@ -74,11 +73,12 @@ class BlogController extends Controller {
       .lean(false);
 
     row = await Promise.all(row.map(item => {
-      return ctx.model.Comment.count({
+      return ctx.model.Comment.countDocuments({
         blogId: item._id,
       }).then(_count => {
-        item.countOfComments._res = _count;
-        return item;
+        const t = item.toJSON();
+        t.countOfComments = _count;
+        return t;
       });
     }));
     ctx.body = {
@@ -91,6 +91,8 @@ class BlogController extends Controller {
   async getBlogsSortBySomeThing() {
     const { ctx } = this;
     const _res = ctx.helper.handleQuery(ctx.request.queryMy);
+    ctx.logger.info('--conditon--');
+    ctx.logger.info(_res);
     let row = await ctx.model.Blog.find({
       ..._res.where,
     }, 'category tag desc image author createdAt title blogInfo')
@@ -99,11 +101,12 @@ class BlogController extends Controller {
       .sort(_res.sort)
       .lean(false);
     row = await Promise.all(row.map(item => {
-      return ctx.model.Comment.count({
+      return ctx.model.Comment.countDocuments({
         blogId: item._id,
       }).then(_count => {
-        item.countOfComments._res = _count;
-        return item;
+        const t = item.toJSON();
+        t.countOfComments = _count;
+        return t;
       });
     }));
     ctx.body = {
